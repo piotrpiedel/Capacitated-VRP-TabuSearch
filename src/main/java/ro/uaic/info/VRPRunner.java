@@ -24,7 +24,7 @@ public class VRPRunner {
     @Parameter(names = "--iterations")
     public int iterations = 100;
     @Parameter(names = "--tabu")
-    public Integer TabuHorizon = 10;
+    public Integer tabuHorizon = 10;
 
     public static void main(String[] args) throws IOException {
         VRPRunner jct = new VRPRunner();
