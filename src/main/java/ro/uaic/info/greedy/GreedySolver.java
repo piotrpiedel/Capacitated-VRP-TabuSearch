@@ -61,7 +61,7 @@ public class GreedySolver {
 
             for (int i = 0; i < noOfCustomers; i++) {
                 if (!nodes[i].isRouted) {
-                    if (vehicles[vehIndex].CheckIfFits(nodes[i].demand)) {
+                    if (vehicles[vehIndex].checkIfFits(nodes[i].demand)) {
                         candidateCost = distances[vehicles[vehIndex].currentLocation][i];
                         if (minCost > candidateCost) {
                             minCost = candidateCost;

@@ -77,9 +77,10 @@ public class TabuSearchSolver {
 
                             movingNodeDemand = routesFrom.get(i).demand;
 
-                            if ((vehIndexFrom == vehIndexTo) || this.vehicles[vehIndexTo].CheckIfFits(movingNodeDemand)) {
-                                //If we assign to a different route check capacity constrains
-                                //if in the new route is the same no need to check for capacity
+                            //If we assign to a different route check capacity constrains
+                            //if in the new route is the same no need to check for capacity
+                            if ((vehIndexFrom == vehIndexTo) || this.vehicles[vehIndexTo].checkIfFits(movingNodeDemand)) {
+
 
                                 if (!((vehIndexFrom == vehIndexTo) && ((j == i) || (j == i - 1))))  // Not a move that Changes solution cost
                                 {

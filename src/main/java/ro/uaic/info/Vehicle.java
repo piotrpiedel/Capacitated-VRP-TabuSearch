@@ -22,7 +22,7 @@ public class Vehicle {
         this.currentLocation = customer.nodeId;
     }
 
-    public boolean CheckIfFits(int dem) //Check if we have Capacity Violation
+    public boolean checkIfFits(int dem) //Check if we have Capacity Violation
     {
         return load + dem <= capacity;
     }
