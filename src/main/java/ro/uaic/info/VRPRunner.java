@@ -2,7 +2,6 @@ package ro.uaic.info;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
-import ro.uaic.info.greedy.GreedySolver;
 import ro.uaic.info.tabu.TabuSearchSolver;
 
 import java.io.IOException;

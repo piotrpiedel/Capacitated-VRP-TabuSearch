@@ -40,48 +40,48 @@ public class GreedySolver {
 
     private boolean unassignedCustomerExists(Node[] Nodes) {
         for (int i = 1; i < Nodes.length; i++) {
-            if (!Nodes[i].IsRouted)
+            if (!Nodes[i].isRouted)
                 return true;
         }
         return false;
     }
 
     public GreedySolver solve() {
-        double CandCost, EndCost;
-        int VehIndex = 0;
+        double candidateCost, endCost;
+        int vehIndex = 0;
 
         while (unassignedCustomerExists(nodes)) {
-            int CustIndex = 0;
-            Node Candidate = null;
+            int custIndex = 0;
+            Node candidate = null;
             double minCost = (float) Double.MAX_VALUE;
 
-            if (vehicles[VehIndex].routes.isEmpty()) {
-                vehicles[VehIndex].AddNode(nodes[0]);
+            if (vehicles[vehIndex].routes.isEmpty()) {
+                vehicles[vehIndex].addNode(nodes[0]);
             }
 
             for (int i = 0; i < noOfCustomers; i++) {
-                if (!nodes[i].IsRouted) {
-                    if (vehicles[VehIndex].CheckIfFits(nodes[i].demand)) {
-                        CandCost = distances[vehicles[VehIndex].currentLocation][i];
-                        if (minCost > CandCost) {
-                            minCost = CandCost;
-                            CustIndex = i;
-                            Candidate = nodes[i];
+                if (!nodes[i].isRouted) {
+                    if (vehicles[vehIndex].CheckIfFits(nodes[i].demand)) {
+                        candidateCost = distances[vehicles[vehIndex].currentLocation][i];
+                        if (minCost > candidateCost) {
+                            minCost = candidateCost;
+                            custIndex = i;
+                            candidate = nodes[i];
                         }
                     }
                 }
             }
 
-            if (Candidate == null) {
+            if (candidate == null) {
                 //Not a single Customer Fits
-                if (VehIndex + 1 < vehicles.length) //We have more vehicles to assign
+                if (vehIndex + 1 < vehicles.length) //We have more vehicles to assign
                 {
-                    if (vehicles[VehIndex].currentLocation != 0) {//End this route
-                        EndCost = distances[vehicles[VehIndex].currentLocation][0];
-                        vehicles[VehIndex].AddNode(nodes[0]);
-                        this.cost += EndCost;
+                    if (vehicles[vehIndex].currentLocation != 0) {//End this route
+                        endCost = distances[vehicles[vehIndex].currentLocation][0];
+                        vehicles[vehIndex].addNode(nodes[0]);
+                        this.cost += endCost;
                     }
-                    VehIndex = VehIndex + 1; //Go to next Vehicle
+                    vehIndex = vehIndex + 1; //Go to next Vehicle
                 } else //We DO NOT have any more vehicle to assign. The problem is unsolved under these parameters
                 {
                     System.out.println("\nThe rest customers do not fit in any Vehicle\n" +
@@ -89,15 +89,15 @@ public class GreedySolver {
                     System.exit(0);
                 }
             } else {
-                vehicles[VehIndex].AddNode(Candidate);//If a fitting Customer is Found
-                nodes[CustIndex].IsRouted = true;
+                vehicles[vehIndex].addNode(candidate);//If a fitting Customer is Found
+                nodes[custIndex].isRouted = true;
                 this.cost += minCost;
             }
         }
 
-        EndCost = distances[vehicles[VehIndex].currentLocation][0];
-        vehicles[VehIndex].AddNode(nodes[0]);
-        this.cost += EndCost;
+        endCost = distances[vehicles[vehIndex].currentLocation][0];
+        vehicles[vehIndex].addNode(nodes[0]);
+        this.cost += endCost;
 
         return this;
     }
@@ -111,9 +111,9 @@ public class GreedySolver {
                 int RoutSize = vehicles[j].routes.size();
                 for (int k = 0; k < RoutSize; k++) {
                     if (k == RoutSize - 1) {
-                        System.out.print(vehicles[j].routes.get(k).NodeId);
+                        System.out.print(vehicles[j].routes.get(k).nodeId);
                     } else {
-                        System.out.print(vehicles[j].routes.get(k).NodeId + "->");
+                        System.out.print(vehicles[j].routes.get(k).nodeId + "->");
                     }
                 }
                 System.out.println();
