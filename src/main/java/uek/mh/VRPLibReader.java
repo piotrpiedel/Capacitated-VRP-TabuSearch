@@ -12,7 +12,6 @@ public class VRPLibReader {
     private double[][] coord;
     private double[][] distance;
     private int[] demand;
-    private int[] depots;
 
     public VRPLibReader(BufferedReader reader) throws IOException {
         this.reader = reader;
@@ -87,19 +86,6 @@ public class VRPLibReader {
         }
     }
 
-    private void readDepots() throws IOException {
-        depots = new int[2];
-
-        String line = reader.readLine();
-        int i = 0;
-        while (!line.equalsIgnoreCase("EOF")) {
-            depots[i] = Double.valueOf(line.trim()).intValue();
-            i++;
-
-            line = reader.readLine();
-        }
-    }
-
     private void convertCoordToDistance() {
         distance = new double[dimension][dimension];
 
@@ -134,7 +120,4 @@ public class VRPLibReader {
         return demand;
     }
 
-    public int[] getDepots() {
-        return depots;
-    }
 }
