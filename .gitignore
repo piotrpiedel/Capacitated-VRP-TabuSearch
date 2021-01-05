@@ -11,3 +11,10 @@ build/classes/java/main/ro/uaic/info/Vehicle.class
 build/classes/java/main/ro/uaic/info/VRPRunner.class
 build/classes/java/main/ro/uaic/info/greedy/GreedyAlgorithm.class
 build/classes/java/main/ro/uaic/info/tabu/TabuSearchSolver.class
+build/classes/java/main/uek/mh/VrpConfiguration.class
+build/classes/java/main/uek/mh/VRPLibReader.class
+build/classes/java/main/uek/mh/VRPRunner.class
+build/classes/java/main/uek/mh/algorithms/GreedyAlgorithm.class
+build/classes/java/main/uek/mh/algorithms/TabuSearchAlgorithm.class
+build/classes/java/main/uek/mh/models/Node.class
+build/classes/java/main/uek/mh/models/Vehicle.class
