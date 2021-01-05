@@ -1,4 +1,4 @@
-package ro.uaic.info;
+package uek.mh;
 
 import java.io.BufferedReader;
 import java.io.IOException;

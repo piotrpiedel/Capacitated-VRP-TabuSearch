@@ -1,9 +1,8 @@
 package uek.mh.algorithms;
 
+import uek.mh.VRPLibReader;
 import uek.mh.VrpConfiguration;
 import uek.mh.models.Node;
-import uek.mh.VRPLibReader;
-import uek.mh.VRPRunner;
 import uek.mh.models.Vehicle;
 
 import java.io.BufferedReader;
@@ -69,7 +68,7 @@ public class TabuSearchAlgorithm {
 
                             currentNodeDemand = routeFrom.get(i).demand;
 
-                            if ((vehicleIndexFrom == vehicleIndexTo) || this.vehicles[vehicleIndexTo].checkIfFits(currentNodeDemand)) {
+                            if ((vehicleIndexFrom == vehicleIndexTo) || this.vehicles[vehicleIndexTo].checkIfCapacityFits(currentNodeDemand)) {
                                 //If we assign to a different route check capacity constrains
                                 //if in the new route is the same no need to check for capacity
 
