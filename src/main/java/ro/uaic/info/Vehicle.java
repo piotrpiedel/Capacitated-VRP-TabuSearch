@@ -3,7 +3,7 @@ package ro.uaic.info;
 import java.util.ArrayList;
 
 public class Vehicle {
-    public ArrayList<Node> routes = new ArrayList<>();
+    public ArrayList<Node> stopPoints = new ArrayList<>();
     private int capacity;
     public int load;
     public int currentLocation;
@@ -12,12 +12,12 @@ public class Vehicle {
         this.capacity = cap;
         this.load = 0;
         this.currentLocation = 0; //In depot Initially
-        this.routes.clear();
+        this.stopPoints.clear();
     }
 
     public void addNode(Node customer)//Add Customer to Vehicle routes
     {
-        routes.add(customer);
+        stopPoints.add(customer);
         this.load += customer.demand;
         this.currentLocation = customer.nodeId;
     }
