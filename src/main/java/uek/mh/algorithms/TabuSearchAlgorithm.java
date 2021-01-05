@@ -1,8 +1,8 @@
 package uek.mh.algorithms;
 
-import uek.mh.VrpData;
 import uek.mh.models.Node;
 import uek.mh.models.Vehicle;
+import uek.mh.models.VrpData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,9 +10,9 @@ import java.util.ArrayList;
 public class TabuSearchAlgorithm {
     private final double[][] distances;
     private final int numberOfVehicles;
-    private final int tabuMemoryTime = 10;
+    private final int tabuMemoryTime;
     private final Vehicle[] bestSolution;
-    private int iterations = 1000;
+    private final int totalIterations;
     private Vehicle[] vehicles;
     private double cost;
 
@@ -22,6 +22,8 @@ public class TabuSearchAlgorithm {
 
         this.numberOfVehicles = vrpData.getDimension();
         this.distances = vrpData.getDistance();
+        this.tabuMemoryTime = vrpData.getTabuHorizonSize();
+        this.totalIterations = vrpData.getIterations();
 
         GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpData);
         greedyAlgorithm.solve();
@@ -51,7 +53,7 @@ public class TabuSearchAlgorithm {
 
         this.bestSolutionCost = this.cost;
 
-        for (; this.iterations > 0; this.iterations--) {
+        for (int iterations = this.totalIterations; iterations > 0; iterations--) {
             bestIterationCost = Double.MAX_VALUE;
 
             for (vehicleIndexFrom = 0; vehicleIndexFrom < this.vehicles.length; vehicleIndexFrom++) {

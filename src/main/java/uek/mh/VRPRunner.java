@@ -1,6 +1,7 @@
 package uek.mh;
 
 import uek.mh.algorithms.TabuSearchAlgorithm;
+import uek.mh.models.VrpData;
 
 import java.io.IOException;
 

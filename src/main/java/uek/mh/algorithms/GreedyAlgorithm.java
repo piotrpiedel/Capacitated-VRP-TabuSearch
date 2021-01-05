@@ -1,6 +1,6 @@
 package uek.mh.algorithms;
 
-import uek.mh.VrpData;
+import uek.mh.models.VrpData;
 import uek.mh.models.Node;
 import uek.mh.models.Vehicle;
 

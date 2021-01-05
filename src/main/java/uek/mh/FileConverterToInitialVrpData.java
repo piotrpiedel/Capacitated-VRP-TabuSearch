@@ -1,6 +1,8 @@
 package uek.mh;
 
 import uek.mh.algorithms.HaversineDistanceCalculator;
+import uek.mh.models.VrpData;
+import uek.mh.utils.FileFromResourcesReader;
 
 import java.io.*;
 
