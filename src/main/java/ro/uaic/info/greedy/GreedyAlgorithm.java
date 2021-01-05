@@ -9,7 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class GreedySolver {
+public class GreedyAlgorithm {
     private final int noOfVehicles;
     private final Node[] nodes;
     private final double[][] distances;
@@ -18,7 +18,7 @@ public class GreedySolver {
 
     private double cost;
 
-    public GreedySolver(VRPRunner jct) throws IOException {
+    public GreedyAlgorithm(VRPRunner jct) throws IOException {
         VRPLibReader reader = new VRPLibReader(new BufferedReader(new FileReader(jct.instance)));
         this.noOfCustomers = reader.getDimension();
         this.noOfVehicles = reader.getDimension();
@@ -46,7 +46,7 @@ public class GreedySolver {
         return false;
     }
 
-    public GreedySolver solve() {
+    public GreedyAlgorithm solve() {
         double candidateCost, endCost;
         int vehIndex = 0;
 
@@ -102,25 +102,25 @@ public class GreedySolver {
         return this;
     }
 
-    public void print() {
-        System.out.println("=========================================================");
-
-        for (int j = 0; j < noOfVehicles; j++) {
-            if (!vehicles[j].routes.isEmpty()) {
-                System.out.print("Vehicle " + j + ":");
-                int RoutSize = vehicles[j].routes.size();
-                for (int k = 0; k < RoutSize; k++) {
-                    if (k == RoutSize - 1) {
-                        System.out.print(vehicles[j].routes.get(k).nodeId);
-                    } else {
-                        System.out.print(vehicles[j].routes.get(k).nodeId + "->");
-                    }
-                }
-                System.out.println();
-            }
-        }
-        System.out.println("\nBest Value: " + this.cost + "\n");
-    }
+//    public void print() {
+//        System.out.println("=========================================================");
+//
+//        for (int j = 0; j < noOfVehicles; j++) {
+//            if (!vehicles[j].routes.isEmpty()) {
+//                System.out.print("Vehicle " + j + ":");
+//                int RoutSize = vehicles[j].routes.size();
+//                for (int k = 0; k < RoutSize; k++) {
+//                    if (k == RoutSize - 1) {
+//                        System.out.print(vehicles[j].routes.get(k).nodeId);
+//                    } else {
+//                        System.out.print(vehicles[j].routes.get(k).nodeId + "->");
+//                    }
+//                }
+//                System.out.println();
+//            }
+//        }
+//        System.out.println("\nBest Value: " + this.cost + "\n");
+//    }
 
     public Vehicle[] getVehicles() {
         return vehicles;

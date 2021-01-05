@@ -4,7 +4,7 @@ import ro.uaic.info.Node;
 import ro.uaic.info.VRPLibReader;
 import ro.uaic.info.VRPRunner;
 import ro.uaic.info.Vehicle;
-import ro.uaic.info.greedy.GreedySolver;
+import ro.uaic.info.greedy.GreedyAlgorithm;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -32,10 +32,10 @@ public class TabuSearchSolver {
         this.distances = reader.getDistance();
         this.iterations = jct.iterations;
 
-        GreedySolver greedySolver = new GreedySolver(jct);
-        greedySolver.solve();
-        this.vehicles = greedySolver.getVehicles();
-        this.cost = greedySolver.getCost();
+        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(jct);
+        greedyAlgorithm.solve();
+        this.vehicles = greedyAlgorithm.getVehicles();
+        this.cost = greedyAlgorithm.getCost();
 
         this.bestSolutionVehicles = new Vehicle[this.noOfVehicles];
 
@@ -57,8 +57,8 @@ public class TabuSearchSolver {
         int swapIndexA = -1, swapIndexB = -1, swapRouteFrom = -1, swapRouteTo = -1;
         int iteration_number = 0;
 
-        int DimensionCustomer = this.distances[1].length;
-        int TABU_Matrix[][] = new int[DimensionCustomer + 1][DimensionCustomer + 1];
+        int dimensionCustomer = this.distances[1].length;
+        int TABU_Matrix[][] = new int[dimensionCustomer + 1][dimensionCustomer + 1];
 
         this.bestSolutionCost = this.cost;
 
