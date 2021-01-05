@@ -1,29 +1,27 @@
-package ro.uaic.info.tabu;
+package uek.mh.algorithms;
 
-import ro.uaic.info.Node;
-import ro.uaic.info.VRPLibReader;
-import ro.uaic.info.VRPRunner;
-import ro.uaic.info.Vehicle;
-import ro.uaic.info.greedy.GreedyAlgorithm;
+import uek.mh.models.Node;
+import uek.mh.VRPLibReader;
+import uek.mh.VRPRunner;
+import uek.mh.models.Vehicle;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TabuSearchSolver {
+public class TabuSearchAlgorithm {
     private final double[][] distances;
     private final int numberOfVehicles;
     private final int tabuMemoryTime = 10;
-    private int iterations = 1000;
     private final Vehicle[] bestSolution;
-
+    private int iterations = 1000;
     private Vehicle[] vehicles;
     private double cost;
 
     private double bestSolutionCost;
 
-    public TabuSearchSolver(VRPRunner jct) throws IOException {
+    public TabuSearchAlgorithm(VRPRunner jct) throws IOException {
 
         VRPLibReader reader = new VRPLibReader(new BufferedReader(new FileReader(jct.instance)));
         this.numberOfVehicles = reader.getDimension();
@@ -41,7 +39,7 @@ public class TabuSearchSolver {
         }
     }
 
-    public TabuSearchSolver solve() {
+    public TabuSearchAlgorithm solve() {
         //We use 1-0 exchange move
         ArrayList<Node> routeFrom;
         ArrayList<Node> routeTo;
