@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class TabuSearchSolver {
     private final double[][] distances;
     private final int numberOfVehicles;
-    private final int TabuMemoryTime = 10;
+    private final int tabuMemoryTime = 10;
     private int iterations = 1000;
     private final Vehicle[] bestSolution;
 
@@ -53,8 +53,7 @@ public class TabuSearchSolver {
 
         int swapIndexA = -1, swapIndexB = -1, swapRouteFrom = -1, swapRouteTo = -1;
 
-        int DimensionCustomer = this.distances[1].length;
-        int tabuMatrix[][] = new int[DimensionCustomer + 1][DimensionCustomer + 1];
+        int tabuMatrix[][] = new int[this.distances[1].length + 1][this.distances[1].length + 1];
 
         this.bestSolutionCost = this.cost;
 
@@ -67,33 +66,32 @@ public class TabuSearchSolver {
                 for (int i = 1; i < (routesFrom.size() - 1); i++) { //Not possible to move depot!
                     for (vehicleIndexTo = 0; vehicleIndexTo < this.vehicles.length; vehicleIndexTo++) {
                         routesTo = this.vehicles[vehicleIndexTo].routes;
-                        int RouteToLength = routesTo.size();
-                        for (int j = 0; (j < RouteToLength - 1); j++) {//Not possible to move after last Depot!
+                        for (int j = 0; (j < routesTo.size() - 1); j++) {//Not possible to move after last Depot!
 
                             currentNodeDemand = routesFrom.get(i).demand;
 
-                            if ((vehicleIndexFrom == vehicleIndexTo) || this.vehicles[vehicleIndexTo].CheckIfFits(currentNodeDemand)) {
+                            if ((vehicleIndexFrom == vehicleIndexTo) || this.vehicles[vehicleIndexTo].checkIfFits(currentNodeDemand)) {
                                 //If we assign to a different route check capacity constrains
                                 //if in the new route is the same no need to check for capacity
 
                                 if (!((vehicleIndexFrom == vehicleIndexTo) && ((j == i) || (j == i - 1))))  // Not a move that Changes solution cost
                                 {
                                     //Check if the move is a Tabu! - If it is Tabu break
-                                    if ((tabuMatrix[routesFrom.get(i - 1).NodeId][routesFrom.get(i + 1).NodeId] != 0)
-                                            || (tabuMatrix[routesTo.get(j).NodeId][routesFrom.get(i).NodeId] != 0)
-                                            || (tabuMatrix[routesFrom.get(i).NodeId][routesTo.get(j + 1).NodeId] != 0)) {
+                                    if ((tabuMatrix[routesFrom.get(i - 1).nodeId][routesFrom.get(i + 1).nodeId] != 0)
+                                            || (tabuMatrix[routesTo.get(j).nodeId][routesFrom.get(i).nodeId] != 0)
+                                            || (tabuMatrix[routesFrom.get(i).nodeId][routesTo.get(j + 1).nodeId] != 0)) {
                                         break;
                                     }
 
-                                    double subtractedCosts = this.distances[routesFrom.get(i - 1).NodeId][routesFrom.get(i).NodeId]
-                                        + this.distances[routesFrom.get(i).NodeId][routesFrom.get(i + 1).NodeId]
-                                        + this.distances[routesTo.get(j).NodeId][routesTo.get(j + 1).NodeId];
+                                    double subtractedCosts = this.distances[routesFrom.get(i - 1).nodeId][routesFrom.get(i).nodeId]
+                                        + this.distances[routesFrom.get(i).nodeId][routesFrom.get(i + 1).nodeId]
+                                        + this.distances[routesTo.get(j).nodeId][routesTo.get(j + 1).nodeId];
 
-                                    double addedCosts = this.distances[routesFrom.get(i - 1).NodeId][routesFrom.get(i + 1).NodeId]
-                                        + this.distances[routesTo.get(j).NodeId][routesFrom.get(i).NodeId]
-                                        + this.distances[routesFrom.get(i).NodeId][routesTo.get(j + 1).NodeId];
+                                    double addedCosts = this.distances[routesFrom.get(i - 1).nodeId][routesFrom.get(i + 1).nodeId]
+                                        + this.distances[routesTo.get(j).nodeId][routesFrom.get(i).nodeId]
+                                        + this.distances[routesFrom.get(i).nodeId][routesTo.get(j + 1).nodeId];
 
-                                    currentCost = addedCosts - subtractedCosts
+                                    currentCost = addedCosts - subtractedCosts;
 
                                     if (currentCost < bestIterationCost) {
                                         bestIterationCost = currentCost;
@@ -109,10 +107,10 @@ public class TabuSearchSolver {
                 }
             }
 
-            for (int o = 0; o < tabuMatrix[0].length; o++) {
-                for (int p = 0; p < tabuMatrix[0].length; p++) {
-                    if (tabuMatrix[o][p] > 0) {
-                        tabuMatrix[o][p]--;
+            for (int i = 0; i < tabuMatrix[0].length; i++) {
+                for (int j = 0; j < tabuMatrix[0].length; j++) {
+                    if (tabuMatrix[i][j] > 0) {
+                        tabuMatrix[i][j]--;
                     }
                 }
             }
@@ -124,15 +122,15 @@ public class TabuSearchSolver {
 
             Node SwapNode = routesFrom.get(swapIndexA);
 
-            int NodeIDBefore = routesFrom.get(swapIndexA - 1).NodeId;
-            int NodeIDAfter = routesFrom.get(swapIndexA + 1).NodeId;
-            int NodeID_F = routesTo.get(swapIndexB).NodeId;
-            int NodeID_G = routesTo.get(swapIndexB + 1).NodeId;
+            int nodeIdBefore = routesFrom.get(swapIndexA - 1).nodeId;
+            int nodeIdAfter = routesFrom.get(swapIndexA + 1).nodeId;
+            int nodeId_F = routesTo.get(swapIndexB).nodeId;
+            int nodeId_G = routesTo.get(swapIndexB + 1).nodeId;
 
 
-            tabuMatrix[NodeIDBefore][SwapNode.NodeId] = this.TabuMemoryTime;
-            tabuMatrix[SwapNode.NodeId][NodeIDAfter] = this.TabuMemoryTime;
-            tabuMatrix[NodeID_F][NodeID_G] = this.TabuMemoryTime;
+            tabuMatrix[nodeIdBefore][SwapNode.nodeId] = this.tabuMemoryTime;
+            tabuMatrix[SwapNode.nodeId][nodeIdAfter] = this.tabuMemoryTime;
+            tabuMatrix[nodeId_F][nodeId_G] = this.tabuMemoryTime;
 
             routesFrom.remove(swapIndexA);
 
@@ -188,9 +186,9 @@ public class TabuSearchSolver {
                 int RoutSize = this.vehicles[j].routes.size();
                 for (int k = 0; k < RoutSize; k++) {
                     if (k == RoutSize - 1) {
-                        System.out.print(this.vehicles[j].routes.get(k).NodeId);
+                        System.out.print(this.vehicles[j].routes.get(k).nodeId);
                     } else {
-                        System.out.print(this.vehicles[j].routes.get(k).NodeId + "->");
+                        System.out.print(this.vehicles[j].routes.get(k).nodeId + "->");
                     }
                 }
                 System.out.println();
