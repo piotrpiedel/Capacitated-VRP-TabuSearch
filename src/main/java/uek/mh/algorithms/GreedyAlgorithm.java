@@ -19,7 +19,7 @@ public class GreedyAlgorithm {
 
     private double cost;
 
-    public GreedyAlgorithm(VRPRunner jct) throws IOException {
+    public GreedyAlgorithm() throws IOException {
         VRPLibReader reader = new VRPLibReader(new BufferedReader(new FileReader(VrpConfiguration.instance)));
         this.noOfCustomers = reader.getDimension();
         this.noOfVehicles = reader.getDimension();

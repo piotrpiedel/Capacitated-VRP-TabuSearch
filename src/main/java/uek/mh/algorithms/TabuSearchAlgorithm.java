@@ -22,13 +22,13 @@ public class TabuSearchAlgorithm {
 
     private double bestSolutionCost;
 
-    public TabuSearchAlgorithm(VRPRunner jct) throws IOException {
+    public TabuSearchAlgorithm() throws IOException {
 
         VRPLibReader reader = new VRPLibReader(new BufferedReader(new FileReader(VrpConfiguration.instance)));
         this.numberOfVehicles = reader.getDimension();
         this.distances = reader.getDistance();
 
-        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(jct);
+        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm();
         greedyAlgorithm.solve();
         this.vehicles = greedyAlgorithm.getVehicles();
         this.cost = greedyAlgorithm.getCost();
