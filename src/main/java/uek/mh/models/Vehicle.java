@@ -8,22 +8,21 @@ public class Vehicle {
     public int load;
     public int currentLocation;
 
-    public Vehicle(int cap) {
-        this.capacity = cap;
+    public Vehicle(int capacity) {
+        this.capacity = capacity;
         this.load = 0;
         this.currentLocation = 0; //In depot Initially
         this.stopPoints.clear();
     }
 
-    public void addNode(Node customer)//Add Customer to Vehicle routes
+    public void addStopPointToVehicle(Node customer)//Add Customer to Vehicle routes
     {
         stopPoints.add(customer);
         this.load += customer.demand;
         this.currentLocation = customer.nodeId;
     }
 
-    public boolean checkIfFits(int dem) //Check if we have Capacity Violation
-    {
+    public boolean checkIfCapacityFits(int dem) {
         return load + dem <= capacity;
     }
 }
