@@ -58,7 +58,7 @@ public class TabuSearchSolver {
         int iteration_number = 0;
 
         int dimensionCustomer = this.distances[1].length;
-        int TABU_Matrix[][] = new int[dimensionCustomer + 1][dimensionCustomer + 1];
+        int tabuMatrix[][] = new int[dimensionCustomer + 1][dimensionCustomer + 1];
 
         this.bestSolutionCost = this.cost;
 
@@ -93,9 +93,9 @@ public class TabuSearchSolver {
                                     double addedCost3 = this.distances[routesFrom.get(i).nodeId][routesTo.get(j + 1).nodeId];
 
                                     //Check if the move is a Tabu! - If it is Tabu break
-                                    if ((TABU_Matrix[routesFrom.get(i - 1).nodeId][routesFrom.get(i + 1).nodeId] != 0)
-                                            || (TABU_Matrix[routesTo.get(j).nodeId][routesFrom.get(i).nodeId] != 0)
-                                            || (TABU_Matrix[routesFrom.get(i).nodeId][routesTo.get(j + 1).nodeId] != 0)) {
+                                    if ((tabuMatrix[routesFrom.get(i - 1).nodeId][routesFrom.get(i + 1).nodeId] != 0)
+                                            || (tabuMatrix[routesTo.get(j).nodeId][routesFrom.get(i).nodeId] != 0)
+                                            || (tabuMatrix[routesFrom.get(i).nodeId][routesTo.get(j + 1).nodeId] != 0)) {
                                         break;
                                     }
 
@@ -116,10 +116,10 @@ public class TabuSearchSolver {
                 }
             }
 
-            for (int o = 0; o < TABU_Matrix[0].length; o++) {
-                for (int p = 0; p < TABU_Matrix[0].length; p++) {
-                    if (TABU_Matrix[o][p] > 0) {
-                        TABU_Matrix[o][p]--;
+            for (int o = 0; o < tabuMatrix[0].length; o++) {
+                for (int p = 0; p < tabuMatrix[0].length; p++) {
+                    if (tabuMatrix[o][p] > 0) {
+                        tabuMatrix[o][p]--;
                     }
                 }
             }
@@ -141,9 +141,9 @@ public class TabuSearchSolver {
             int randomDelay2 = TabuRan.nextInt(5);
             int randomDelay3 = TabuRan.nextInt(5);
 
-            TABU_Matrix[NodeIDBefore][SwapNode.nodeId] = this.tabuHorizon + randomDelay1;
-            TABU_Matrix[SwapNode.nodeId][NodeIDAfter] = this.tabuHorizon + randomDelay2;
-            TABU_Matrix[NodeID_F][NodeID_G] = this.tabuHorizon + randomDelay3;
+            tabuMatrix[NodeIDBefore][SwapNode.nodeId] = this.tabuHorizon + randomDelay1;
+            tabuMatrix[SwapNode.nodeId][NodeIDAfter] = this.tabuHorizon + randomDelay2;
+            tabuMatrix[NodeID_F][NodeID_G] = this.tabuHorizon + randomDelay3;
 
             routesFrom.remove(swapIndexA);
 
