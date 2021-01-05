@@ -18,3 +18,10 @@ build/classes/java/main/uek/mh/algorithms/GreedyAlgorithm.class
 build/classes/java/main/uek/mh/algorithms/TabuSearchAlgorithm.class
 build/classes/java/main/uek/mh/models/Node.class
 build/classes/java/main/uek/mh/models/Vehicle.class
+.gradle/6.3/javaCompile/taskHistory.bin
+.gradle/checksums/checksums.lock
+.gradle/checksums/sha1-checksums.bin
+.idea/compiler.xml
+build/classes/java/main/uek/mh/FileUtils.class
+build/classes/java/main/uek/mh/VrpData.class
+build/classes/java/main/uek/mh/algorithms/HaversineDistanceCalculator.class

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Vehicle {
     public ArrayList<Node> stopPoints = new ArrayList<>();
-    private int capacity;
+    private final int capacity;
     public int load;
     public int currentLocation;
 
@@ -15,7 +15,7 @@ public class Vehicle {
         this.stopPoints.clear();
     }
 
-    public void addStopPointToVehicle(Node customer)//Add Customer to Vehicle routes
+    public void addStopPointToVehicle(Node customer)
     {
         stopPoints.add(customer);
         this.load += customer.demand;

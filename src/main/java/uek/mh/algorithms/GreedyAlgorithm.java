@@ -1,12 +1,9 @@
 package uek.mh.algorithms;
 
-import uek.mh.VRPLibReader;
-import uek.mh.VrpConfiguration;
+import uek.mh.VrpData;
 import uek.mh.models.Node;
 import uek.mh.models.Vehicle;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
 public class GreedyAlgorithm {
@@ -18,23 +15,22 @@ public class GreedyAlgorithm {
 
     private double cost;
 
-    public GreedyAlgorithm() throws IOException {
-        VRPLibReader reader = new VRPLibReader(new BufferedReader(new FileReader(VrpConfiguration.instance)));
-        this.noOfCustomers = reader.getDimension();
-        this.noOfVehicles = reader.getDimension();
-        this.distances = reader.getDistance();
+    public GreedyAlgorithm(VrpData vrpData) throws IOException {
+        this.noOfCustomers = vrpData.getDimension();
+        this.noOfVehicles = vrpData.getDimension();
+        this.distances = vrpData.getDistance();
         this.cost = 0;
 
         nodes = new Node[noOfCustomers];
 
         for (int i = 0; i < noOfCustomers; i++) {
-            nodes[i] = new Node(i, reader.getDemand()[i]);
+            nodes[i] = new Node(i, vrpData.getDemand()[i]);
         }
 
         this.vehicles = new Vehicle[this.noOfVehicles];
 
         for (int i = 0; i < this.noOfVehicles; i++) {
-            vehicles[i] = new Vehicle(reader.getVehicleCapacity());
+            vehicles[i] = new Vehicle(vrpData.getVehicleCapacity());
         }
     }
 

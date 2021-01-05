@@ -1,12 +1,9 @@
 package uek.mh.algorithms;
 
-import uek.mh.VRPLibReader;
-import uek.mh.VrpConfiguration;
+import uek.mh.VrpData;
 import uek.mh.models.Node;
 import uek.mh.models.Vehicle;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -21,13 +18,12 @@ public class TabuSearchAlgorithm {
 
     private double bestSolutionCost;
 
-    public TabuSearchAlgorithm() throws IOException {
+    public TabuSearchAlgorithm(VrpData vrpData) throws IOException {
 
-        VRPLibReader reader = new VRPLibReader(new BufferedReader(new FileReader(VrpConfiguration.instance)));
-        this.numberOfVehicles = reader.getDimension();
-        this.distances = reader.getDistance();
+        this.numberOfVehicles = vrpData.getDimension();
+        this.distances = vrpData.getDistance();
 
-        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm();
+        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpData);
         greedyAlgorithm.solve();
         this.vehicles = greedyAlgorithm.getVehicles();
         this.cost = greedyAlgorithm.getCost();
@@ -35,7 +31,7 @@ public class TabuSearchAlgorithm {
         this.bestSolution = new Vehicle[this.numberOfVehicles];
 
         for (int i = 0; i < this.numberOfVehicles; i++) {
-            this.bestSolution[i] = new Vehicle(reader.getVehicleCapacity());
+            this.bestSolution[i] = new Vehicle(vrpData.getVehicleCapacity());
         }
     }
 
