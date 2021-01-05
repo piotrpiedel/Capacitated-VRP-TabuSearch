@@ -1,26 +1,33 @@
 package uek.mh;
 
+import uek.mh.algorithms.HaversineDistanceCalculator;
+
 import java.io.*;
 
-public class FileUtils {
+public class FileConverterToInitialVrpData {
 
-    private BufferedReader reader;
-    private VrpData vrpData;
-
-    private FileUtils(String pathToFileFromResources) throws IOException {
-        loadFileToMemory(pathToFileFromResources);
-    }
+    private final BufferedReader reader;
+    private final VrpData vrpData;
+    private final HaversineDistanceCalculator haversineDistanceCalculator;
 
     /**
      * @param pathToFileFromResources the location of the file, relative resource folder
      *                                eg. datasets/big/Golden_20.vrp
      */
-    public static VrpData loadFileFromPathToVrpData(String pathToFileFromResources) throws IOException {
-        FileUtils fileUtils = new FileUtils(pathToFileFromResources);
-        return fileUtils.loadFileToVrpData();
+    public static VrpData convert(String pathToFileFromResources) throws IOException {
+        FileConverterToInitialVrpData fileConverterToInitialVrpData = new FileConverterToInitialVrpData(pathToFileFromResources);
+        return fileConverterToInitialVrpData.loadFileToVrpData();
     }
 
-    private static double euclideanDistance(double x1, double y1, double x2, double y2) {
+    private FileConverterToInitialVrpData(String pathToFileFromResources) throws FileNotFoundException {
+        FileFromResourcesReader fileFromResourcesReader = new FileFromResourcesReader();
+        File file = fileFromResourcesReader.loadFile(pathToFileFromResources);
+        reader = new BufferedReader(new FileReader(file));
+        vrpData = new VrpData();
+        haversineDistanceCalculator = new HaversineDistanceCalculator();
+    }
+
+    private double euclideanDistance(double x1, double y1, double x2, double y2) {
         double xDistance = Math.abs(x1 - x2);
         double yDistance = Math.abs(y1 - y2);
 
@@ -28,22 +35,11 @@ public class FileUtils {
     }
 
     private VrpData loadFileToVrpData() throws IOException {
-        vrpData = new VrpData();
         readHeader();
         readCoordinates();
         readDemand();
         convertCoordinatesToDistance();
         return vrpData;
-    }
-
-    /**
-     * @param pathToFileFromResources the location of the file, relative resource folder
-     *                                eg. datasets/big/Golden_20.vrp
-     */
-    private void loadFileToMemory(String pathToFileFromResources) throws FileNotFoundException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(pathToFileFromResources).getFile());
-        reader = new BufferedReader(new FileReader(file));
     }
 
     private void readHeader() throws IOException {
