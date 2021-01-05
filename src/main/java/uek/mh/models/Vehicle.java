@@ -3,26 +3,25 @@ package uek.mh.models;
 import java.util.ArrayList;
 
 public class Vehicle {
-    public ArrayList<Node> routes = new ArrayList<>();
+    public ArrayList<Node> stopPoints = new ArrayList<>();
     public int load;
     public int currentLocation;
     private int capacity;
 
-    public Vehicle(int cap) {
-        this.capacity = cap;
+    public Vehicle(int capacity) {
+        this.capacity = capacity;
         this.load = 0;
         this.currentLocation = 0; //In depot Initially
-        this.routes.clear();
+        this.stopPoints.clear();
     }
 
-    public void addNode(Node customer)//Add Customer to Vehicle routes
-    {
-        routes.add(customer);
+    public void addStopPointToVehicle(Node customer) {
+        stopPoints.add(customer);
         this.load += customer.demand;
         this.currentLocation = customer.nodeId;
     }
 
-    public boolean checkIfFits(int dem) //Check if we have Capacity Violation
+    public boolean checkIfCapacityFits(int dem) //Check if we have Capacity Violation
     {
         return load + dem <= capacity;
     }
