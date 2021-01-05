@@ -11,6 +11,16 @@ public class VRPRunner {
         VrpData vrpDataForFirstRun = FileConverterToInitialVrpData.convert("datasets/big/Golden_20.vrp");
         new TabuSearchAlgorithm(vrpDataForFirstRun)
                 .run()
-                .print();
+                .printOnlyCalculatedCost();
+
+        VrpData vrpDataForSecondRun = FileConverterToInitialVrpData.convert("datasets/big/Golden_19.vrp");
+        new TabuSearchAlgorithm(vrpDataForSecondRun)
+                .run()
+                .printOnlyCalculatedCost();
+
+        VrpData vrpDataForThirdRun = FileConverterToInitialVrpData.convert("datasets/big/Golden_18.vrp");
+        new TabuSearchAlgorithm(vrpDataForThirdRun)
+                .run()
+                .printOnlyCalculatedCost();
     }
 }

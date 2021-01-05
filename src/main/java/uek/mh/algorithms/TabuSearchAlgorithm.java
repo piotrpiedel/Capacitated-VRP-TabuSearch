@@ -192,6 +192,11 @@ public class TabuSearchAlgorithm {
         }
         System.out.println("\nBest Value: " + this.cost + "\n");
     }
+
+    public void printOnlyCalculatedCost() {
+        System.out.println("=========================================================");
+        System.out.println("\nBest Value: " + this.cost + "\n");
+    }
 }
 
 
