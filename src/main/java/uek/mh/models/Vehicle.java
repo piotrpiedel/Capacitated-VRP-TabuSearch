@@ -11,7 +11,7 @@ public class Vehicle {
     public Vehicle(int capacity) {
         this.capacity = capacity;
         this.load = 0;
-        this.currentLocation = 0; //In depot Initially
+        this.currentLocation = 0;
         this.stopPoints.clear();
     }
 
@@ -21,8 +21,7 @@ public class Vehicle {
         this.currentLocation = customer.nodeId;
     }
 
-    public boolean checkIfCapacityFits(int dem) //Check if we have Capacity Violation
-    {
+    public boolean checkIfCapacityFits(int dem) {
         return load + dem <= capacity;
     }
 }
