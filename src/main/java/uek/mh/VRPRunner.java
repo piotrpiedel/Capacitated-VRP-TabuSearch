@@ -10,7 +10,7 @@ public class VRPRunner {
     public static void main(String[] args) throws IOException {
         VrpData vrpDataForFirstRun = FileConverterToInitialVrpData.convert("datasets/big/Golden_20.vrp");
         new TabuSearchAlgorithm(vrpDataForFirstRun)
-                .solve()
+                .run()
                 .print();
     }
 }

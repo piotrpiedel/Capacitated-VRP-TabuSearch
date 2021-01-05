@@ -42,7 +42,7 @@ public class GreedyAlgorithm {
         return false;
     }
 
-    public GreedyAlgorithm solve() {
+    public GreedyAlgorithm run() {
         double candidateCost, endCost;
         int vehIndex = 0;
 

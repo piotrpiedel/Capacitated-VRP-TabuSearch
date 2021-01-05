@@ -26,7 +26,7 @@ public class TabuSearchAlgorithm {
         this.totalIterations = vrpData.getIterations();
 
         GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpData);
-        greedyAlgorithm.solve();
+        greedyAlgorithm.run();
         this.vehicles = greedyAlgorithm.getVehicles();
         this.cost = greedyAlgorithm.getCost();
 
@@ -37,7 +37,7 @@ public class TabuSearchAlgorithm {
         }
     }
 
-    public TabuSearchAlgorithm solve() {
+    public TabuSearchAlgorithm run() {
         //We use 1-0 exchange move
         ArrayList<Node> routeFrom;
         ArrayList<Node> routeTo;
