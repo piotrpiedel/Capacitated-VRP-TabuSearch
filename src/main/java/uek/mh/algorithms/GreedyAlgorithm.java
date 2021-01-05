@@ -1,9 +1,9 @@
-package ro.uaic.info.greedy;
+package uek.mh.algorithms;
 
-import ro.uaic.info.Node;
-import ro.uaic.info.VRPLibReader;
-import ro.uaic.info.VRPRunner;
-import ro.uaic.info.Vehicle;
+import uek.mh.models.Node;
+import uek.mh.VRPLibReader;
+import uek.mh.VRPRunner;
+import uek.mh.models.Vehicle;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

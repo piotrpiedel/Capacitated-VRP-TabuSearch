@@ -1,8 +1,7 @@
-package ro.uaic.info;
+package uek.mh;
 
 import com.beust.jcommander.JCommander;
-import com.beust.jcommander.Parameter;
-import ro.uaic.info.tabu.TabuSearchSolver;
+import uek.mh.algorithms.TabuSearchAlgorithm;
 
 import java.io.IOException;
 
@@ -14,7 +13,7 @@ public class VRPRunner {
     public static void main(String[] args) throws IOException {
         VRPRunner jct = new VRPRunner();
         JCommander jCommander = new JCommander(jct, args);
-        new TabuSearchSolver(jct)
+        new TabuSearchAlgorithm(jct)
                 .solve()
                 .print();
     }

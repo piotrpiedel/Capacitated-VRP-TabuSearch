@@ -1,12 +1,12 @@
-package ro.uaic.info;
+package uek.mh.models;
 
 import java.util.ArrayList;
 
 public class Vehicle {
     public ArrayList<Node> routes = new ArrayList<>();
-    private int capacity;
     public int load;
     public int currentLocation;
+    private int capacity;
 
     public Vehicle(int cap) {
         this.capacity = cap;

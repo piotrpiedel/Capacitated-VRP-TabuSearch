@@ -1,4 +1,4 @@
-package ro.uaic.info;
+package uek.mh.models;
 
 public class Node {
     public int nodeId;

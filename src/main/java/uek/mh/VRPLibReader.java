@@ -1,8 +1,7 @@
-package ro.uaic.info;
+package uek.mh;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.time.LocalTime;
 
 public class VRPLibReader {
 
@@ -21,6 +20,13 @@ public class VRPLibReader {
         readCoordinates();
         readDemand();
         convertCoordToDistance();
+    }
+
+    private static double euclideanDistance(double x1, double y1, double x2, double y2) {
+        double xDistance = Math.abs(x1 - x2);
+        double yDistance = Math.abs(y1 - y2);
+
+        return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
     }
 
     private void readHeader() throws IOException {
@@ -80,7 +86,7 @@ public class VRPLibReader {
             line = reader.readLine();
         }
     }
-    
+
     private void readDepots() throws IOException {
         depots = new int[2];
 
@@ -110,13 +116,6 @@ public class VRPLibReader {
                 }
             }
         }
-    }
-
-    private static double euclideanDistance(double x1, double y1, double x2, double y2) {
-        double xDistance = Math.abs(x1 - x2);
-        double yDistance = Math.abs(y1 - y2);
-
-        return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
     }
 
     public int getDimension() {
