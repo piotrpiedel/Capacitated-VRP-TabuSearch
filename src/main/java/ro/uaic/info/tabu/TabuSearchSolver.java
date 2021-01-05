@@ -4,7 +4,7 @@ import ro.uaic.info.Node;
 import ro.uaic.info.VRPLibReader;
 import ro.uaic.info.VRPRunner;
 import ro.uaic.info.Vehicle;
-import ro.uaic.info.greedy.GreedySolver;
+import ro.uaic.info.greedy.GreedyAlgorithm;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -29,10 +29,10 @@ public class TabuSearchSolver {
         this.numberOfVehicles = reader.getDimension();
         this.distances = reader.getDistance();
 
-        GreedySolver greedySolver = new GreedySolver(jct);
-        greedySolver.solve();
-        this.vehicles = greedySolver.getVehicles();
-        this.cost = greedySolver.getCost();
+        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(jct);
+        greedyAlgorithm.solve();
+        this.vehicles = greedyAlgorithm.getVehicles();
+        this.cost = greedyAlgorithm.getCost();
 
         this.bestSolution = new Vehicle[this.numberOfVehicles];
 
@@ -170,8 +170,8 @@ public class TabuSearchSolver {
         for (int j = 0; j < this.numberOfVehicles; j++) {
             this.bestSolution[j].routes.clear();
             if (!this.vehicles[j].routes.isEmpty()) {
-                int RoutSize = this.vehicles[j].routes.size();
-                for (int k = 0; k < RoutSize; k++) {
+                int routSize = this.vehicles[j].routes.size();
+                for (int k = 0; k < routSize; k++) {
                     Node n = this.vehicles[j].routes.get(k);
                     this.bestSolution[j].routes.add(n);
                 }

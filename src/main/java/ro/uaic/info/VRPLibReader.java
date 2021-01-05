@@ -13,9 +13,6 @@ public class VRPLibReader {
     private double[][] coord;
     private double[][] distance;
     private int[] demand;
-    private double[][] pickup;
-    private LocalTime[][] timeWindows;
-    private int[] standTime;
     private int[] depots;
 
     public VRPLibReader(BufferedReader reader) throws IOException {
@@ -23,10 +20,6 @@ public class VRPLibReader {
         readHeader();
         readCoordinates();
         readDemand();
-        //        readPickup();
-        //        readTimeWindows();
-        //        readStandtime();
-        // readDepots();
         convertCoordToDistance();
     }
 
@@ -87,59 +80,7 @@ public class VRPLibReader {
             line = reader.readLine();
         }
     }
-
-    private void readPickup() throws IOException {
-        pickup = new double[dimension][2];
-
-        String line = reader.readLine();
-        while (!line.equalsIgnoreCase("TIME_WINDOW_SECTION")) {
-            parseRow(line, pickup);
-
-            line = reader.readLine();
-        }
-    }
-
-    private void readTimeWindows() throws IOException {
-        timeWindows = new LocalTime[dimension][2];
-
-        String line = reader.readLine();
-        while (!line.equalsIgnoreCase("STANDTIME_SECTION")) {
-            String[] split = line.split("\\s+");
-
-            int i = Integer.valueOf(split[0].trim()) - 1;
-
-            String startTime = split[1].trim();
-            String endTime = split[2].trim();
-            if (startTime.equals("")) {
-                startTime = "0" + split[2].trim();
-                endTime = split[3].trim();
-
-                if (endTime.equals("")) {
-                    endTime = "0" + split[4].trim();
-                }
-            }
-
-            timeWindows[i][0] = LocalTime.parse(startTime);
-            timeWindows[i][1] = LocalTime.parse(endTime);
-
-            line = reader.readLine();
-        }
-    }
-
-    private void readStandtime() throws IOException {
-        standTime = new int[dimension];
-
-        String line = reader.readLine();
-        while (!line.equalsIgnoreCase("DEPOT_SECTION")) {
-            String[] split = line.split("\\s+");
-
-            int i = Integer.valueOf(split[0].trim()) - 1;
-            standTime[i] = Integer.valueOf(split[1].trim());
-
-            line = reader.readLine();
-        }
-    }
-
+    
     private void readDepots() throws IOException {
         depots = new int[2];
 

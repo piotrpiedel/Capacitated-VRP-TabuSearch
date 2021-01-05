@@ -1,14 +1,14 @@
 package ro.uaic.info;
 
 public class Node {
-    public int NodeId;
+    public int nodeId;
     public int demand; //Node Demand if Customer
-    public boolean IsRouted;
+    public boolean isRouted;
 
     public Node(int id, int demand) //Cunstructor for Customers
     {
-        this.NodeId = id;
+        this.nodeId = id;
         this.demand = demand;
-        this.IsRouted = false;
+        this.isRouted = false;
     }
 }

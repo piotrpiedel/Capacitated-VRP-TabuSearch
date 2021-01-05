@@ -15,14 +15,14 @@ public class Vehicle {
         this.routes.clear();
     }
 
-    public void AddNode(Node Customer)//Add Customer to Vehicle routes
+    public void addNode(Node customer)//Add Customer to Vehicle routes
     {
-        routes.add(Customer);
-        this.load += Customer.demand;
-        this.currentLocation = Customer.NodeId;
+        routes.add(customer);
+        this.load += customer.demand;
+        this.currentLocation = customer.nodeId;
     }
 
-    public boolean CheckIfFits(int dem) //Check if we have Capacity Violation
+    public boolean checkIfFits(int dem) //Check if we have Capacity Violation
     {
         return load + dem <= capacity;
     }
