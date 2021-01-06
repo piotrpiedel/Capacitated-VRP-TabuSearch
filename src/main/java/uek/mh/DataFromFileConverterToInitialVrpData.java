@@ -60,19 +60,19 @@ public class DataFromFileConverterToInitialVrpData {
     }
 
     private void readCoordinates() throws IOException {
-        vrpData.coordinates = new double[vrpData.numberOfCities][2];
+        vrpData.coordinates = new double[vrpData.numberOfCities + 1][2];
         String line;
         while (!((line = reader.readLine()).equalsIgnoreCase("CITY_DEMAND"))) {
-            parseRow(line, vrpData.coordinates);
+            parseRow(line);
         }
     }
 
-    private void parseRow(String line, double[][] coordinates) {
+    private void parseRow(String line) {
         String[] split = line.split("\\s+");
 
-        int i = Integer.valueOf(split[0].trim()) - 1;
-        coordinates[i][0] = Double.valueOf(split[1].trim());
-        coordinates[i][1] = Double.valueOf(split[2].trim());
+        int i = Integer.valueOf(split[0].trim());
+        vrpData.coordinates[i][0] = Double.valueOf(split[1].trim());
+        vrpData.coordinates[i][1] = Double.valueOf(split[2].trim());
     }
 
     private void readDemand() throws IOException {

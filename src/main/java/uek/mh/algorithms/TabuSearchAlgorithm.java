@@ -26,7 +26,7 @@ public class TabuSearchAlgorithm {
         this.totalIterations = vrpData.getIterations();
 
         GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpData);
-        greedyAlgorithm.run();
+        greedyAlgorithm.runAlgorithm();
         this.vehicles = greedyAlgorithm.getVehicles();
         this.cost = greedyAlgorithm.getCost();
         this.numberOfVehicles = greedyAlgorithm.getFinalNumberOfUsedVehicles();
