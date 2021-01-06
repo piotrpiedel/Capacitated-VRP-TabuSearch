@@ -2,7 +2,7 @@ package uek.mh.algorithms;
 
 import uek.mh.models.City;
 import uek.mh.models.Vehicle;
-import uek.mh.models.VrpData;
+import uek.mh.models.VrpDataConfig;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,13 +19,13 @@ public class TabuSearchAlgorithm {
 
     private double bestSolutionCost;
 
-    public TabuSearchAlgorithm(VrpData vrpData) {
+    public TabuSearchAlgorithm(VrpDataConfig vrpDataConfig) {
 
-        this.distances = vrpData.getDistance();
-        this.tabuMemoryTime = vrpData.getTabuHorizonSize();
-        this.totalIterations = vrpData.getIterations();
+        this.distances = vrpDataConfig.getDistance();
+        this.tabuMemoryTime = vrpDataConfig.getTabuHorizonSize();
+        this.totalIterations = vrpDataConfig.getIterations();
 
-        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpData);
+        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpDataConfig);
         greedyAlgorithm.runAlgorithm();
         this.vehicles = greedyAlgorithm.getVehicles();
         this.cost = greedyAlgorithm.getCost();
@@ -33,7 +33,7 @@ public class TabuSearchAlgorithm {
         this.bestSolution = new Vehicle[this.numberOfVehicles];
 
         for (int i = 0; i < this.numberOfVehicles; i++) {
-            this.bestSolution[i] = new Vehicle(vrpData.getVehicleCapacity());
+            this.bestSolution[i] = new Vehicle(vrpDataConfig.getVehicleCapacity());
         }
     }
 
@@ -54,7 +54,7 @@ public class TabuSearchAlgorithm {
         int swapRouteFrom = -1;
         int swapRouteTo = -1;
 
-        int tabuMatrix[][] = new int[this.distances[1].length + 1][this.distances[1].length + 1];
+        int[][] tabuMatrix = new int[this.distances[1].length + 1][this.distances[1].length + 1];
 
         this.bestSolutionCost = this.cost;
 

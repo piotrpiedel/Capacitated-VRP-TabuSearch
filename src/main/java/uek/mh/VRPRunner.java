@@ -1,7 +1,8 @@
 package uek.mh;
 
 import uek.mh.algorithms.TabuSearchAlgorithm;
-import uek.mh.models.VrpData;
+import uek.mh.dataloader.DataFromFileConverterToInitialVrpData;
+import uek.mh.models.VrpDataConfig;
 
 import java.io.IOException;
 
@@ -23,8 +24,8 @@ public class VRPRunner {
 //                .run()
 //                .printOnlyCalculatedCost();
 
-        VrpData vrpDataPolandCitiesFromMhProject = DataFromFileConverterToInitialVrpData.convert("datasets/supported_datasets/Mhprojekt.vrp");
-        new TabuSearchAlgorithm(vrpDataPolandCitiesFromMhProject)
+        VrpDataConfig vrpDataConfigPolandCitiesFromMhProject = DataFromFileConverterToInitialVrpData.convert("datasets/supported_datasets/Mhprojekt.vrp");
+        new TabuSearchAlgorithm(vrpDataConfigPolandCitiesFromMhProject)
                 .run()
                 .printOnlyCalculatedCost();
     }

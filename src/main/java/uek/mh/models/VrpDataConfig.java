@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class VrpData {
+public class VrpDataConfig {
     public int vehicles;
     public int iterations = 10000;
     public int tabuHorizonSize = 10;

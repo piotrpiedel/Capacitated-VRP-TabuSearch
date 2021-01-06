@@ -3,7 +3,7 @@ package uek.mh.algorithms;
 import lombok.Getter;
 import uek.mh.models.City;
 import uek.mh.models.Vehicle;
-import uek.mh.models.VrpData;
+import uek.mh.models.VrpDataConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,28 +19,28 @@ public class GreedyAlgorithm {
 
     private double cost;
 
-    public GreedyAlgorithm(VrpData vrpData) {
-        this.numberOfCities = vrpData.getNumberOfCities();
-        this.noOfVehicles = vrpData.getVehicles();
-        this.distances = vrpData.getDistance();
+    public GreedyAlgorithm(VrpDataConfig vrpDataConfig) {
+        this.numberOfCities = vrpDataConfig.getNumberOfCities();
+        this.noOfVehicles = vrpDataConfig.getVehicles();
+        this.distances = vrpDataConfig.getDistance();
         this.cost = 0;
 
-        cities = createCitiesWithDemandsFromFile(vrpData);
-        vehicles = createVehiclesWithCapacitiesFromFile(vrpData);
+        cities = createCitiesWithDemandsFromFile(vrpDataConfig);
+        vehicles = createVehiclesWithCapacitiesFromFile(vrpDataConfig);
     }
 
-    private List<City> createCitiesWithDemandsFromFile(VrpData vrpData) {
+    private List<City> createCitiesWithDemandsFromFile(VrpDataConfig vrpDataConfig) {
         List<City> cities = new ArrayList<>();
         for (int i = 0; i < numberOfCities; i++) {
-            cities.add(new City(i, vrpData.getDemandForCity(i)));
+            cities.add(new City(i, vrpDataConfig.getDemandForCity(i)));
         }
         return cities;
     }
 
-    private List<Vehicle> createVehiclesWithCapacitiesFromFile(VrpData vrpData) {
+    private List<Vehicle> createVehiclesWithCapacitiesFromFile(VrpDataConfig vrpDataConfig) {
         List<Vehicle> vehicles = new ArrayList<>();
         for (int i = 0; i < this.noOfVehicles; i++) {
-            vehicles.add(new Vehicle(vrpData.getVehicleCapacity()));
+            vehicles.add(new Vehicle(vrpDataConfig.getVehicleCapacity()));
         }
         return vehicles;
     }
@@ -82,16 +82,15 @@ public class GreedyAlgorithm {
 
             if (candidate == null) {
                 //Not a single Customer Fits
-                if (currentVehicle + 1 < vehicles.size()) //We have more vehicles to assign
-                {
+                if (currentVehicle + 1 < vehicles.size()) { //We have more vehicles to assign
+
                     if (vehicles.get(currentVehicle).currentLocation != 0) {//End this route
                         endCost = distances[vehicles.get(currentVehicle).currentLocation][0];
                         vehicles.get(currentVehicle).addStopPointToVehicle(getDepot());
                         this.cost += endCost;
                     }
                     currentVehicle = currentVehicle + 1; //Go to next Vehicle
-                } else //We DO NOT have any more vehicle to assign. The problem is unsolved under these parameters
-                {
+                } else { //We DO NOT have any more vehicle to assign. The problem is unsolved under these parameters
                     System.out.println("\nThe rest customers do not fit in any Vehicle\n" +
                             "The problem cannot be resolved under these constrains");
                     System.exit(0);

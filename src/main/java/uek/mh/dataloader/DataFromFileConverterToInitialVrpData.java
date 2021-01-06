@@ -1,8 +1,8 @@
-package uek.mh;
+package uek.mh.dataloader;
 
 import uek.mh.algorithms.HaversineDistanceCalculator;
 import uek.mh.models.Coordinates;
-import uek.mh.models.VrpData;
+import uek.mh.models.VrpDataConfig;
 import uek.mh.utils.FileFromResourcesReader;
 
 import java.io.*;
@@ -11,14 +11,14 @@ import java.util.ArrayList;
 public class DataFromFileConverterToInitialVrpData {
 
     private final BufferedReader reader;
-    private final VrpData vrpData;
+    private final VrpDataConfig vrpDataConfig;
     private final HaversineDistanceCalculator haversineDistanceCalculator;
 
     /**
      * @param pathToFileFromResources the location of the file, relative resource folder
      *                                eg. datasets/big/Golden_20.vrp
      */
-    public static VrpData convert(String pathToFileFromResources) throws IOException {
+    public static VrpDataConfig convert(String pathToFileFromResources) throws IOException {
         DataFromFileConverterToInitialVrpData dataFromFileConverterToInitialVrpData = new DataFromFileConverterToInitialVrpData(pathToFileFromResources);
         return dataFromFileConverterToInitialVrpData.loadFileToVrpData();
     }
@@ -27,16 +27,16 @@ public class DataFromFileConverterToInitialVrpData {
         FileFromResourcesReader fileFromResourcesReader = new FileFromResourcesReader();
         File file = fileFromResourcesReader.loadFile(pathToFileFromResources);
         reader = new BufferedReader(new FileReader(file));
-        vrpData = new VrpData();
+        vrpDataConfig = new VrpDataConfig();
         haversineDistanceCalculator = new HaversineDistanceCalculator();
     }
 
-    private VrpData loadFileToVrpData() throws IOException {
+    private VrpDataConfig loadFileToVrpData() throws IOException {
         readHeader();
         readCoordinates();
         readDemand();
         convertCoordinatesToDistance();
-        return vrpData;
+        return vrpDataConfig;
     }
 
     private void readHeader() throws IOException {
@@ -47,21 +47,21 @@ public class DataFromFileConverterToInitialVrpData {
             String key = split[0].trim();
 
             if (key.equalsIgnoreCase("DIMENSION")) {
-                vrpData.numberOfCities = Integer.parseInt(split[1].trim());
+                vrpDataConfig.numberOfCities = Integer.parseInt(split[1].trim());
             }
 
             if (key.equalsIgnoreCase("VEHICLE_CAPACITY")) {
-                vrpData.vehicleCapacity = Integer.parseInt(split[1].trim());
+                vrpDataConfig.vehicleCapacity = Integer.parseInt(split[1].trim());
             }
 
             if (key.equalsIgnoreCase("NUMBER_OF_VEHICLES")) {
-                vrpData.vehicles = Integer.parseInt(split[1].trim());
+                vrpDataConfig.vehicles = Integer.parseInt(split[1].trim());
             }
         }
     }
 
     private void readCoordinates() throws IOException {
-        vrpData.coordinates = new ArrayList<>();
+        vrpDataConfig.coordinates = new ArrayList<>();
         String line;
         while (!((line = reader.readLine()).equalsIgnoreCase("CITY_DEMAND"))) {
             parseRow(line);
@@ -72,28 +72,28 @@ public class DataFromFileConverterToInitialVrpData {
         String[] split = line.split("\\s+");
         double latitude = Double.parseDouble(split[1].trim());
         double longitude = Double.parseDouble(split[2].trim());
-        vrpData.coordinates.add(new Coordinates(latitude, longitude));
+        vrpDataConfig.coordinates.add(new Coordinates(latitude, longitude));
     }
 
     private void readDemand() throws IOException {
-        vrpData.demand = new ArrayList<>(vrpData.numberOfCities);
+        vrpDataConfig.demand = new ArrayList<>();
         String line;
         while (!((line = reader.readLine()).equalsIgnoreCase("DEPOT_COORDINATES"))) {
             String[] split = line.split("\\s+");
-            vrpData.demand.add(Integer.valueOf(split[1].trim()));
+            vrpDataConfig.demand.add(Integer.valueOf(split[1].trim()));
         }
     }
 
     private void convertCoordinatesToDistance() {
-        vrpData.distance = new double[vrpData.numberOfCities][vrpData.numberOfCities];
+        vrpDataConfig.distance = new double[vrpDataConfig.numberOfCities][vrpDataConfig.numberOfCities];
 
-        for (int i = 0; i < vrpData.numberOfCities; i++) {
-            for (int j = i; j < vrpData.numberOfCities; j++) {
+        for (int i = 0; i < vrpDataConfig.numberOfCities; i++) {
+            for (int j = i; j < vrpDataConfig.numberOfCities; j++) {
                 if (i != j) {
-                    vrpData.distance[i][j] = haversineDistanceCalculator
-                            .calculateDistance(vrpData.getCoordinates().get(i), vrpData.getCoordinates().get(j));
+                    vrpDataConfig.distance[i][j] = haversineDistanceCalculator
+                            .calculateDistance(vrpDataConfig.getCoordinates().get(i), vrpDataConfig.getCoordinates().get(j));
 
-                    vrpData.distance[j][i] = vrpData.distance[i][j];
+                    vrpDataConfig.distance[j][i] = vrpDataConfig.distance[i][j];
                 }
             }
         }
