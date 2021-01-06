@@ -47,7 +47,7 @@ public class FileConverterToInitialVrpData {
     private void readHeader() throws IOException {
         String line = reader.readLine();
 
-        while (!line.equalsIgnoreCase("NODE_COORD_SECTION")) {
+        while (!line.equalsIgnoreCase("COORDINATES")) {
             String[] split = line.split(":");
 
             String key = split[0].trim();
@@ -56,7 +56,7 @@ public class FileConverterToInitialVrpData {
                 vrpData.dimension = Integer.parseInt(split[1].trim());
             }
 
-            if (key.equalsIgnoreCase("CAPACITY")) {
+            if (key.equalsIgnoreCase("VEHICLE_CAPACITY")) {
                 vrpData.vehicleCapacity = Integer.parseInt(split[1].trim());
             }
 
@@ -72,7 +72,7 @@ public class FileConverterToInitialVrpData {
         vrpData.coordinates = new double[vrpData.dimension][2];
 
         String line = reader.readLine();
-        while (!line.equalsIgnoreCase("DEMAND_SECTION")) {
+        while (!line.equalsIgnoreCase("CITY_DEMAND")) {
             parseRow(line, vrpData.coordinates);
 
             line = reader.readLine();
@@ -91,7 +91,7 @@ public class FileConverterToInitialVrpData {
         vrpData.demand = new int[vrpData.dimension];
 
         String line = reader.readLine();
-        while (!line.equalsIgnoreCase("DEPOT_SECTION")) {
+        while (!line.equalsIgnoreCase("DEPOT_COORDINATES")) {
 
             String[] split = line.split("\\s+");
 
