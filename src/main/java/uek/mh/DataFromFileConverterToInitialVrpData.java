@@ -51,6 +51,10 @@ public class DataFromFileConverterToInitialVrpData {
             if (key.equalsIgnoreCase("VEHICLE_CAPACITY")) {
                 vrpData.vehicleCapacity = Integer.parseInt(split[1].trim());
             }
+
+            if (key.equalsIgnoreCase("NUMBER_OF_VEHICLES")) {
+                vrpData.vehicles = Integer.parseInt(split[1].trim());
+            }
         }
     }
 

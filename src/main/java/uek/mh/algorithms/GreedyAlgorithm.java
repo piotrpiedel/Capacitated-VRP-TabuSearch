@@ -17,7 +17,7 @@ public class GreedyAlgorithm {
 
     public GreedyAlgorithm(VrpData vrpData) throws IOException {
         this.noOfCustomers = vrpData.getDimension();
-        this.noOfVehicles = vrpData.getDimension();
+        this.noOfVehicles = vrpData.getVehicles();
         this.distances = vrpData.getDistance();
         this.cost = 0;
 
