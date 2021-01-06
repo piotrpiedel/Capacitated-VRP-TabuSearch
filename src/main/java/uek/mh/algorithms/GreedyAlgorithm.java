@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 public class GreedyAlgorithm {
     private final int noOfVehicles;
-    private final Node[] nodes;
+    private final List<Node> nodes;
     private final double[][] distances;
     private final int numberOfCities;
     private final List<Vehicle> vehicles;
@@ -25,10 +25,10 @@ public class GreedyAlgorithm {
         this.distances = vrpData.getDistance();
         this.cost = 0;
 
-        nodes = new Node[numberOfCities];
+        nodes = new ArrayList<>();
 
         for (int i = 0; i < numberOfCities; i++) {
-            nodes[i] = new Node(i, vrpData.getDemand()[i]);
+            nodes.add(new Node(i, vrpData.getDemand()[i]));
         }
 
         this.vehicles = new ArrayList<>();
@@ -38,9 +38,9 @@ public class GreedyAlgorithm {
         }
     }
 
-    private boolean unassignedCustomerExists(Node[] Nodes) {
-        for (int i = 1; i < Nodes.length; i++) {
-            if (!Nodes[i].isRouted)
+    private boolean unassignedCustomerExists(List<Node> nodes) {
+        for (int i = 1; i < nodes.size(); i++) {
+            if (!nodes.get(i).isRouted)
                 return true;
         }
         return false;
@@ -56,17 +56,17 @@ public class GreedyAlgorithm {
             double minCost = Double.MAX_VALUE;
 
             if (vehicles.get(vehIndex).stopPoints.isEmpty()) {
-                vehicles.get(vehIndex).addStopPointToVehicle(nodes[0]);
+                vehicles.get(vehIndex).addStopPointToVehicle(nodes.get(0));
             }
 
             for (int i = 0; i < numberOfCities; i++) {
-                if (!nodes[i].isRouted) {
-                    if (vehicles.get(vehIndex).checkIfCapacityFits(nodes[i].demand)) {
+                if (!nodes.get(i).isRouted) {
+                    if (vehicles.get(vehIndex).checkIfCapacityFits(nodes.get(i).demand)) {
                         candidateCost = distances[vehicles.get(vehIndex).currentLocation][i];
                         if (minCost > candidateCost) {
                             minCost = candidateCost;
                             customerIndex = i;
-                            candidate = nodes[i];
+                            candidate = nodes.get(i);
                         }
                     }
                 }
@@ -78,7 +78,7 @@ public class GreedyAlgorithm {
                 {
                     if (vehicles.get(vehIndex).currentLocation != 0) {//End this route
                         endCost = distances[vehicles.get(vehIndex).currentLocation][0];
-                        vehicles.get(vehIndex).addStopPointToVehicle(nodes[0]);
+                        vehicles.get(vehIndex).addStopPointToVehicle(nodes.get(0));
                         this.cost += endCost;
                     }
                     vehIndex = vehIndex + 1; //Go to next Vehicle
@@ -90,13 +90,13 @@ public class GreedyAlgorithm {
                 }
             } else {
                 vehicles.get(vehIndex).addStopPointToVehicle(candidate);//If a fitting Customer is Found
-                nodes[customerIndex].isRouted = true;
+                nodes.get(customerIndex).isRouted = true;
                 this.cost += minCost;
             }
         }
 
         endCost = distances[vehicles.get(vehIndex).currentLocation][0];
-        vehicles.get(vehIndex).addStopPointToVehicle(nodes[0]);
+        vehicles.get(vehIndex).addStopPointToVehicle(nodes.get(0));
         this.cost += endCost;
 
         finalNumberOfUsedVehicles = vehIndex;
