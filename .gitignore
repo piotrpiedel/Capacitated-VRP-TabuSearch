@@ -27,3 +27,4 @@ build/classes/java/main/uek/mh/VrpData.class
 build/classes/java/main/uek/mh/algorithms/HaversineDistanceCalculator.class
 *.class
 *.name
+build/
