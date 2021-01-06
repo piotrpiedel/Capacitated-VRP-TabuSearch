@@ -4,8 +4,9 @@ import uek.mh.models.Node;
 import uek.mh.models.Vehicle;
 import uek.mh.models.VrpData;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class TabuSearchAlgorithm {
     private final double[][] distances;
@@ -13,12 +14,12 @@ public class TabuSearchAlgorithm {
     private final int tabuMemoryTime;
     private final Vehicle[] bestSolution;
     private final int totalIterations;
-    private Vehicle[] vehicles;
+    private List<Vehicle> vehicles;
     private double cost;
 
     private double bestSolutionCost;
 
-    public TabuSearchAlgorithm(VrpData vrpData) throws IOException {
+    public TabuSearchAlgorithm(VrpData vrpData) {
 
         this.distances = vrpData.getDistance();
         this.tabuMemoryTime = vrpData.getTabuHorizonSize();
@@ -60,17 +61,17 @@ public class TabuSearchAlgorithm {
         for (int iterations = this.totalIterations; iterations > 0; iterations--) {
             bestIterationCost = Double.MAX_VALUE;
 
-            for (vehicleIndexFrom = 0; vehicleIndexFrom < this.vehicles.length; vehicleIndexFrom++) {
-                routeFrom = this.vehicles[vehicleIndexFrom].stopPoints;
+            for (vehicleIndexFrom = 0; vehicleIndexFrom < this.vehicles.size(); vehicleIndexFrom++) {
+                routeFrom = this.vehicles.get(vehicleIndexFrom).stopPoints;
 
                 for (int i = 1; i < (routeFrom.size() - 1); i++) { // on first and last position is depot, which we cannot move
-                    for (vehicleIndexTo = 0; vehicleIndexTo < this.vehicles.length; vehicleIndexTo++) {
-                        routeTo = this.vehicles[vehicleIndexTo].stopPoints;
+                    for (vehicleIndexTo = 0; vehicleIndexTo < this.vehicles.size(); vehicleIndexTo++) {
+                        routeTo = this.vehicles.get(vehicleIndexTo).stopPoints;
                         for (int j = 0; (j < routeTo.size() - 1); j++) { // on last position is depot, which we cannot move
 
                             currentNodeDemand = routeFrom.get(i).demand;
 
-                            if ((vehicleIndexFrom != vehicleIndexTo) && !this.vehicles[vehicleIndexTo].checkIfCapacityFits(currentNodeDemand)) {
+                            if ((vehicleIndexFrom != vehicleIndexTo) && !this.vehicles.get(vehicleIndexTo).checkIfCapacityFits(currentNodeDemand)) {
                                 // if we swap to different route and there's no enough capacity, it means we cannot make swap to that route
                                 break;
                             }
@@ -117,8 +118,8 @@ public class TabuSearchAlgorithm {
                 }
             }
 
-            routeFrom = this.vehicles[swapRouteFrom].stopPoints;
-            routeTo = this.vehicles[swapRouteTo].stopPoints;
+            routeFrom = this.vehicles.get(swapRouteFrom).stopPoints;
+            routeTo = this.vehicles.get(swapRouteTo).stopPoints;
 
             Node SwapNode = routeFrom.get(swapIndexA);
 
@@ -144,11 +145,11 @@ public class TabuSearchAlgorithm {
                 routeTo.add(swapIndexB + 1, SwapNode);
             }
 
-            this.vehicles[swapRouteFrom].stopPoints = routeFrom;
-            this.vehicles[swapRouteFrom].load -= currentNodeDemand;
+            this.vehicles.get(swapRouteFrom).stopPoints = routeFrom;
+            this.vehicles.get(swapRouteFrom).load -= currentNodeDemand;
 
-            this.vehicles[swapRouteTo].stopPoints = routeTo;
-            this.vehicles[swapRouteTo].load += currentNodeDemand;
+            this.vehicles.get(swapRouteTo).stopPoints = routeTo;
+            this.vehicles.get(swapRouteTo).load += currentNodeDemand;
 
             this.cost += bestIterationCost;
 
@@ -157,7 +158,7 @@ public class TabuSearchAlgorithm {
             }
         }
 
-        this.vehicles = this.bestSolution;
+        this.vehicles = Arrays.asList(this.bestSolution);
         this.cost = this.bestSolutionCost;
 
         return this;
@@ -167,10 +168,10 @@ public class TabuSearchAlgorithm {
         this.bestSolutionCost = this.cost;
         for (int j = 0; j < this.numberOfVehicles; j++) {
             this.bestSolution[j].stopPoints.clear();
-            if (!this.vehicles[j].stopPoints.isEmpty()) {
-                int routSize = this.vehicles[j].stopPoints.size();
+            if (!this.vehicles.get(j).stopPoints.isEmpty()) {
+                int routSize = this.vehicles.get(j).stopPoints.size();
                 for (int k = 0; k < routSize; k++) {
-                    Node n = this.vehicles[j].stopPoints.get(k);
+                    Node n = this.vehicles.get(j).stopPoints.get(k);
                     this.bestSolution[j].stopPoints.add(n);
                 }
             }
@@ -181,14 +182,14 @@ public class TabuSearchAlgorithm {
         System.out.println("=========================================================");
 
         for (int j = 0; j < this.numberOfVehicles; j++) {
-            if (!this.vehicles[j].stopPoints.isEmpty()) {
+            if (!this.vehicles.get(j).stopPoints.isEmpty()) {
                 System.out.print("Vehicle " + j + ":");
-                int RoutSize = this.vehicles[j].stopPoints.size();
+                int RoutSize = this.vehicles.get(j).stopPoints.size();
                 for (int k = 0; k < RoutSize; k++) {
                     if (k == RoutSize - 1) {
-                        System.out.print(this.vehicles[j].stopPoints.get(k).nodeId);
+                        System.out.print(this.vehicles.get(j).stopPoints.get(k).nodeId);
                     } else {
-                        System.out.print(this.vehicles[j].stopPoints.get(k).nodeId + "->");
+                        System.out.print(this.vehicles.get(j).stopPoints.get(k).nodeId + "->");
                     }
                 }
                 System.out.println();
