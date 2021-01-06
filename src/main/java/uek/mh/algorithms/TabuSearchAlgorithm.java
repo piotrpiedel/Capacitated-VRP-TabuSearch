@@ -27,10 +27,8 @@ public class TabuSearchAlgorithm {
         GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpData);
         greedyAlgorithm.run();
         this.vehicles = greedyAlgorithm.getVehicles();
-        System.out.println(vehicles.length);
         this.cost = greedyAlgorithm.getCost();
         this.numberOfVehicles = greedyAlgorithm.getFinalNumberOfUsedVehicles();
-
         this.bestSolution = new Vehicle[this.numberOfVehicles];
 
         for (int i = 0; i < this.numberOfVehicles; i++) {
