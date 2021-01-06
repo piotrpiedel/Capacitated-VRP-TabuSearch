@@ -123,7 +123,7 @@ public class GreedyAlgorithm {
 
         for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {
             if (!vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
-                System.out.print("Vehicle " + (vehicleIndex + 1) + ": 0->");
+                System.out.print("Vehicle " + (vehicleIndex + 1)  + " Load for vehicle " + vehicles.get(vehicleIndex).load + ": 0->");
                 int routSize = vehicles.get(vehicleIndex).stopPoints.size();
                 for (int k = 0; k < routSize; k++) {
                     if (k == routSize - 1) {
