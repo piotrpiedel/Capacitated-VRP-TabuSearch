@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 public class GreedyAlgorithm {
-    private final int noOfVehicles;
+    private final int numberOfVehicles;
     private final List<City> cities;
     private final double[][] distances;
     private final int numberOfCities;
@@ -21,7 +21,7 @@ public class GreedyAlgorithm {
 
     public GreedyAlgorithm(VrpDataConfig vrpDataConfig) {
         this.numberOfCities = vrpDataConfig.getNumberOfCities();
-        this.noOfVehicles = vrpDataConfig.getVehicles();
+        this.numberOfVehicles = vrpDataConfig.getVehicles();
         this.distances = vrpDataConfig.getDistance();
         this.cost = 0;
 
@@ -39,7 +39,7 @@ public class GreedyAlgorithm {
 
     private List<Vehicle> createVehiclesWithCapacitiesFromFile(VrpDataConfig vrpDataConfig) {
         List<Vehicle> vehicles = new ArrayList<>();
-        for (int i = 0; i < this.noOfVehicles; i++) {
+        for (int i = 0; i < this.numberOfVehicles; i++) {
             vehicles.add(new Vehicle(vrpDataConfig.getVehicleCapacity()));
         }
         return vehicles;
