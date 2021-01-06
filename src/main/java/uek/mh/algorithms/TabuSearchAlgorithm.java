@@ -44,10 +44,15 @@ public class TabuSearchAlgorithm {
 
         int currentNodeDemand = 0;
 
-        int vehicleIndexFrom, vehicleIndexTo;
-        double bestIterationCost, currentCost;
+        int vehicleIndexFrom;
+        int vehicleIndexTo;
+        double bestIterationCost;
+        double currentCost;
 
-        int swapIndexA = -1, swapIndexB = -1, swapRouteFrom = -1, swapRouteTo = -1;
+        int swapIndexA = -1;
+        int swapIndexB = -1;
+        int swapRouteFrom = -1;
+        int swapRouteTo = -1;
 
         int tabuMatrix[][] = new int[this.distances[1].length + 1][this.distances[1].length + 1];
 
@@ -59,44 +64,46 @@ public class TabuSearchAlgorithm {
             for (vehicleIndexFrom = 0; vehicleIndexFrom < this.vehicles.length; vehicleIndexFrom++) {
                 routeFrom = this.vehicles[vehicleIndexFrom].stopPoints;
 
-                for (int i = 1; i < (routeFrom.size() - 1); i++) { //Not possible to move depot!
+                for (int i = 1; i < (routeFrom.size() - 1); i++) { // on first and last position is depot, which we cannot move
                     for (vehicleIndexTo = 0; vehicleIndexTo < this.vehicles.length; vehicleIndexTo++) {
                         routeTo = this.vehicles[vehicleIndexTo].stopPoints;
-                        for (int j = 0; (j < routeTo.size() - 1); j++) {//Not possible to move after last Depot!
+                        for (int j = 0; (j < routeTo.size() - 1); j++) { // on last position is depot, which we cannot move
 
                             currentNodeDemand = routeFrom.get(i).demand;
 
-                            if ((vehicleIndexFrom == vehicleIndexTo) || this.vehicles[vehicleIndexTo].checkIfCapacityFits(currentNodeDemand)) {
-                                //If we assign to a different route check capacity constrains
-                                //if in the new route is the same no need to check for capacity
+                            if ((vehicleIndexFrom != vehicleIndexTo) && !this.vehicles[vehicleIndexTo].checkIfCapacityFits(currentNodeDemand)) {
+                                // if we swap to different route and there's no enough capacity, it means we cannot make swap to that route
+                                break;
+                            }
 
-                                if (!((vehicleIndexFrom == vehicleIndexTo) && ((j == i) || (j == i - 1))))  // Not a move that Changes solution cost
-                                {
-                                    //Check if the move is a Tabu! - If it is Tabu break
-                                    if ((tabuMatrix[routeFrom.get(i - 1).nodeId][routeFrom.get(i + 1).nodeId] != 0)
-                                            || (tabuMatrix[routeTo.get(j).nodeId][routeFrom.get(i).nodeId] != 0)
-                                            || (tabuMatrix[routeFrom.get(i).nodeId][routeTo.get(j + 1).nodeId] != 0)) {
-                                        break;
-                                    }
+                            if (((vehicleIndexFrom == vehicleIndexTo) && ((j == i) || (j == i - 1)))) {
+                                // that swap would not change anything
+                                continue;
+                            }
 
-                                    double subtractedCosts = this.distances[routeFrom.get(i - 1).nodeId][routeFrom.get(i).nodeId]
-                                        + this.distances[routeFrom.get(i).nodeId][routeFrom.get(i + 1).nodeId]
-                                        + this.distances[routeTo.get(j).nodeId][routeTo.get(j + 1).nodeId];
+                            if ((tabuMatrix[routeFrom.get(i - 1).nodeId][routeFrom.get(i + 1).nodeId] != 0)
+                                    || (tabuMatrix[routeTo.get(j).nodeId][routeFrom.get(i).nodeId] != 0)
+                                    || (tabuMatrix[routeFrom.get(i).nodeId][routeTo.get(j + 1).nodeId] != 0)) {
+                                // checking if that move isn't in tabu
+                                break;
+                            }
 
-                                    double addedCosts = this.distances[routeFrom.get(i - 1).nodeId][routeFrom.get(i + 1).nodeId]
-                                        + this.distances[routeTo.get(j).nodeId][routeFrom.get(i).nodeId]
-                                        + this.distances[routeFrom.get(i).nodeId][routeTo.get(j + 1).nodeId];
+                            double subtractedCosts = this.distances[routeFrom.get(i - 1).nodeId][routeFrom.get(i).nodeId]
+                                    + this.distances[routeFrom.get(i).nodeId][routeFrom.get(i + 1).nodeId]
+                                    + this.distances[routeTo.get(j).nodeId][routeTo.get(j + 1).nodeId];
 
-                                    currentCost = addedCosts - subtractedCosts;
+                            double addedCosts = this.distances[routeFrom.get(i - 1).nodeId][routeFrom.get(i + 1).nodeId]
+                                    + this.distances[routeTo.get(j).nodeId][routeFrom.get(i).nodeId]
+                                    + this.distances[routeFrom.get(i).nodeId][routeTo.get(j + 1).nodeId];
 
-                                    if (currentCost < bestIterationCost) {
-                                        bestIterationCost = currentCost;
-                                        swapIndexA = i;
-                                        swapIndexB = j;
-                                        swapRouteFrom = vehicleIndexFrom;
-                                        swapRouteTo = vehicleIndexTo;
-                                    }
-                                }
+                            currentCost = addedCosts - subtractedCosts;
+
+                            if (currentCost < bestIterationCost) {
+                                bestIterationCost = currentCost;
+                                swapIndexA = i;
+                                swapIndexB = j;
+                                swapRouteFrom = vehicleIndexFrom;
+                                swapRouteTo = vehicleIndexTo;
                             }
                         }
                     }
@@ -113,8 +120,6 @@ public class TabuSearchAlgorithm {
 
             routeFrom = this.vehicles[swapRouteFrom].stopPoints;
             routeTo = this.vehicles[swapRouteTo].stopPoints;
-            this.vehicles[swapRouteFrom].stopPoints = null;
-            this.vehicles[swapRouteTo].stopPoints = null;
 
             Node SwapNode = routeFrom.get(swapIndexA);
 
