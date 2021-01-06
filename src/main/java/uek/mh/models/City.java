@@ -10,4 +10,6 @@ public class City {
         this.demand = demand;
         this.isRouted = false;
     }
+
+
 }

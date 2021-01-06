@@ -70,8 +70,8 @@ public class DataFromFileConverterToInitialVrpData {
 
     private void parseRow(String line) {
         String[] split = line.split("\\s+");
-        double latitude = Double.valueOf(split[1].trim());
-        double longitude = Double.valueOf(split[2].trim());
+        double latitude = Double.parseDouble(split[1].trim());
+        double longitude = Double.parseDouble(split[2].trim());
         vrpData.coordinates.add(new Coordinates(latitude, longitude));
     }
 

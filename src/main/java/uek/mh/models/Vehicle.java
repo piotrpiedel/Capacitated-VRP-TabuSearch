@@ -15,11 +15,11 @@ public class Vehicle {
         this.stopPoints.clear();
     }
 
-    public void addStopPointToVehicle(City customer)
+    public void addStopPointToVehicle(City city)
     {
-        stopPoints.add(customer);
-        this.load += customer.demand;
-        this.currentLocation = customer.cityId;
+        stopPoints.add(city);
+        this.load += city.demand;
+        this.currentLocation = city.cityId;
     }
 
     public boolean checkIfCapacityFits(int dem) {

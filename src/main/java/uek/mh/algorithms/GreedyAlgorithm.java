@@ -64,12 +64,12 @@ public class GreedyAlgorithm {
             double minCost = Double.MAX_VALUE;
 
             if (vehicles.get(currentVehicle).stopPoints.isEmpty()) {
-                vehicles.get(currentVehicle).addStopPointToVehicle(cities.get(0));
+                vehicles.get(currentVehicle).addStopPointToVehicle(getDepot());
             }
 
-            for (int i = 0; i < numberOfCities; i++) {
+            for (int i = 1; i < numberOfCities; i++) {
                 if (isCityRouted(i)) {
-                    if (vehicles.get(currentVehicle).checkIfCapacityFits(cities.get(i).demand)) {
+                    if (vehicles.get(currentVehicle).checkIfCapacityFits(getDemandForCityWithId(i))) {
                         candidateCost = distances[vehicles.get(currentVehicle).currentLocation][i];
                         if (minCost > candidateCost) {
                             minCost = candidateCost;
@@ -86,7 +86,7 @@ public class GreedyAlgorithm {
                 {
                     if (vehicles.get(currentVehicle).currentLocation != 0) {//End this route
                         endCost = distances[vehicles.get(currentVehicle).currentLocation][0];
-                        vehicles.get(currentVehicle).addStopPointToVehicle(cities.get(0));
+                        vehicles.get(currentVehicle).addStopPointToVehicle(getDepot());
                         this.cost += endCost;
                     }
                     currentVehicle = currentVehicle + 1; //Go to next Vehicle
@@ -104,11 +104,19 @@ public class GreedyAlgorithm {
         }
 
         endCost = distances[vehicles.get(currentVehicle).currentLocation][0];
-        vehicles.get(currentVehicle).addStopPointToVehicle(cities.get(0));
+        vehicles.get(currentVehicle).addStopPointToVehicle(getDepot());
         this.cost += endCost;
 
         finalNumberOfUsedVehicles = currentVehicle;
         return this;
+    }
+
+    private int getDemandForCityWithId(int i) {
+        return cities.get(i).demand;
+    }
+
+    private City getDepot() {
+        return cities.get(0);
     }
 
     private boolean isCityRouted(int i) {
