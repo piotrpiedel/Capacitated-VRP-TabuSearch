@@ -6,7 +6,7 @@ import uek.mh.utils.FileFromResourcesReader;
 
 import java.io.*;
 
-public class FileConverterToInitialVrpData {
+public class DataFromFileConverterToInitialVrpData {
 
     private final BufferedReader reader;
     private final VrpData vrpData;
@@ -17,23 +17,16 @@ public class FileConverterToInitialVrpData {
      *                                eg. datasets/big/Golden_20.vrp
      */
     public static VrpData convert(String pathToFileFromResources) throws IOException {
-        FileConverterToInitialVrpData fileConverterToInitialVrpData = new FileConverterToInitialVrpData(pathToFileFromResources);
-        return fileConverterToInitialVrpData.loadFileToVrpData();
+        DataFromFileConverterToInitialVrpData dataFromFileConverterToInitialVrpData = new DataFromFileConverterToInitialVrpData(pathToFileFromResources);
+        return dataFromFileConverterToInitialVrpData.loadFileToVrpData();
     }
 
-    private FileConverterToInitialVrpData(String pathToFileFromResources) throws FileNotFoundException {
+    private DataFromFileConverterToInitialVrpData(String pathToFileFromResources) throws FileNotFoundException {
         FileFromResourcesReader fileFromResourcesReader = new FileFromResourcesReader();
         File file = fileFromResourcesReader.loadFile(pathToFileFromResources);
         reader = new BufferedReader(new FileReader(file));
         vrpData = new VrpData();
         haversineDistanceCalculator = new HaversineDistanceCalculator();
-    }
-
-    private double euclideanDistance(double x1, double y1, double x2, double y2) {
-        double xDistance = Math.abs(x1 - x2);
-        double yDistance = Math.abs(y1 - y2);
-
-        return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
     }
 
     private VrpData loadFileToVrpData() throws IOException {
@@ -45,9 +38,8 @@ public class FileConverterToInitialVrpData {
     }
 
     private void readHeader() throws IOException {
-        String line = reader.readLine();
-
-        while (!line.equalsIgnoreCase("COORDINATES")) {
+        String line;
+        while (!((line = reader.readLine()).equalsIgnoreCase("COORDINATES"))) {
             String[] split = line.split(":");
 
             String key = split[0].trim();
@@ -59,23 +51,14 @@ public class FileConverterToInitialVrpData {
             if (key.equalsIgnoreCase("VEHICLE_CAPACITY")) {
                 vrpData.vehicleCapacity = Integer.parseInt(split[1].trim());
             }
-
-            line = reader.readLine();
-
-            if (line == null) {
-                break;
-            }
         }
     }
 
     private void readCoordinates() throws IOException {
         vrpData.coordinates = new double[vrpData.dimension][2];
-
-        String line = reader.readLine();
-        while (!line.equalsIgnoreCase("CITY_DEMAND")) {
+        String line;
+        while (!((line = reader.readLine()).equalsIgnoreCase("CITY_DEMAND"))) {
             parseRow(line, vrpData.coordinates);
-
-            line = reader.readLine();
         }
     }
 
@@ -89,16 +72,11 @@ public class FileConverterToInitialVrpData {
 
     private void readDemand() throws IOException {
         vrpData.demand = new int[vrpData.dimension];
-
-        String line = reader.readLine();
-        while (!line.equalsIgnoreCase("DEPOT_COORDINATES")) {
-
+        String line;
+        while (!((line = reader.readLine()).equalsIgnoreCase("DEPOT_COORDINATES"))) {
             String[] split = line.split("\\s+");
-
             int i = Integer.valueOf(split[0].trim()) - 1;
             vrpData.demand[i] = Integer.valueOf(split[1].trim());
-
-            line = reader.readLine();
         }
     }
 
@@ -113,7 +91,7 @@ public class FileConverterToInitialVrpData {
                     double x2 = vrpData.coordinates[j][0];
                     double y2 = vrpData.coordinates[j][1];
 
-                    vrpData.distance[i][j] = euclideanDistance(x1, y1, x2, y2);
+                    vrpData.distance[i][j] = haversineDistanceCalculator.calculateDistance(x1, y1, x2, y2);
                     vrpData.distance[j][i] = vrpData.distance[i][j];
                 }
             }
