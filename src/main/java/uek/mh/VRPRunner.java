@@ -27,6 +27,6 @@ public class VRPRunner {
         VrpDataConfig vrpDataConfigPolandCitiesFromMhProject = DataFromFileConverterToInitialVrpData.convert("datasets/supported_datasets/Mhprojekt.vrp");
         new TabuSearchAlgorithm(vrpDataConfigPolandCitiesFromMhProject)
                 .run()
-                .printOnlyCalculatedCost();
+                .printAll();
     }
 }

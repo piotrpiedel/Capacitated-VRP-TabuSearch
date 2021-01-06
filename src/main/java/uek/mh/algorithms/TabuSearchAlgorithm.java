@@ -20,13 +20,13 @@ public class TabuSearchAlgorithm {
     private double bestSolutionCost;
 
     public TabuSearchAlgorithm(VrpDataConfig vrpDataConfig) {
+        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpDataConfig);
+        greedyAlgorithm.runAlgorithm();
+        greedyAlgorithm.print();
 
         this.distances = vrpDataConfig.getDistance();
         this.tabuMemoryTime = vrpDataConfig.getTabuHorizonSize();
         this.totalIterations = vrpDataConfig.getIterations();
-
-        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpDataConfig);
-        greedyAlgorithm.runAlgorithm();
         this.vehicles = greedyAlgorithm.getVehicles();
         this.cost = greedyAlgorithm.getCost();
         this.numberOfVehicles = greedyAlgorithm.getFinalNumberOfUsedVehicles();
@@ -178,18 +178,18 @@ public class TabuSearchAlgorithm {
         }
     }
 
-    public void print() {
-        System.out.println("=========================================================");
+    public void printAll() {
+        System.out.println("================TABU SEARCH=============================");
 
-        for (int j = 0; j < this.numberOfVehicles; j++) {
-            if (!this.vehicles.get(j).stopPoints.isEmpty()) {
-                System.out.print("Vehicle " + j + ":");
-                int RoutSize = this.vehicles.get(j).stopPoints.size();
-                for (int k = 0; k < RoutSize; k++) {
-                    if (k == RoutSize - 1) {
-                        System.out.print(this.vehicles.get(j).stopPoints.get(k).cityId);
+        for (int vehicleIndex = 0; vehicleIndex < this.numberOfVehicles; vehicleIndex++) {
+            if (!this.vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
+                System.out.print("Vehicle " + (vehicleIndex + 1) + ":");
+                int routSize = this.vehicles.get(vehicleIndex).stopPoints.size();
+                for (int k = 0; k < routSize; k++) {
+                    if (k == routSize - 1) {
+                        System.out.print(this.vehicles.get(vehicleIndex).stopPoints.get(k).cityId);
                     } else {
-                        System.out.print(this.vehicles.get(j).stopPoints.get(k).cityId + "->");
+                        System.out.print(this.vehicles.get(vehicleIndex).stopPoints.get(k).cityId + "->");
                     }
                 }
                 System.out.println();

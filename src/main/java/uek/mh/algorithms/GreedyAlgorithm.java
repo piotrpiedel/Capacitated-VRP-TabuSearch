@@ -117,6 +117,26 @@ public class GreedyAlgorithm {
     private boolean isCityRouted(int i) {
         return !cities.get(i).isRouted;
     }
+
+    public void print() {
+        System.out.println("===============GREEDY ALGORITHM==============================");
+
+        for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {
+            if (!vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
+                System.out.print("Vehicle " + (vehicleIndex + 1) + ":");
+                int routSize = vehicles.get(vehicleIndex).stopPoints.size();
+                for (int k = 0; k < routSize; k++) {
+                    if (k == routSize - 1) {
+                        System.out.print(vehicles.get(vehicleIndex).stopPoints.get(k).cityId);
+                    } else {
+                        System.out.print(vehicles.get(vehicleIndex).stopPoints.get(k).cityId + "->");
+                    }
+                }
+                System.out.println();
+            }
+        }
+        System.out.println("\nBest Value: " + this.cost + "\n");
+    }
 }
 
 
