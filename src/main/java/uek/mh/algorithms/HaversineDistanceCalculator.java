@@ -1,10 +1,16 @@
 package uek.mh.algorithms;
 
+import uek.mh.models.Coordinates;
+
 import static java.lang.Math.*;
 
 public class HaversineDistanceCalculator {
 
     private static final int EARTH_RADIUS_IN_KILOMETERS_UNIT = 6371;
+
+    public double calculateDistance(Coordinates coordinates1, Coordinates coordinates2) {
+        return calculateDistance(coordinates1.getLatitude(), coordinates1.getLongitude(), coordinates2.getLatitude(), coordinates2.getLongitude());
+    }
 
     public double calculateDistance(double latitude1, double longitude1, double latitude2, double longitude2) {
         double deltaLatitude = toRadians(latitude2 - latitude1);

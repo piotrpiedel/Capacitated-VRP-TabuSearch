@@ -12,7 +12,7 @@ public class VrpData {
 
     public int numberOfCities;
     public int vehicleCapacity;
-    public double[][] coordinates;
+    public List<Coordinates> coordinates;
     public double[][] distance;
     public List<Integer> demand;
 

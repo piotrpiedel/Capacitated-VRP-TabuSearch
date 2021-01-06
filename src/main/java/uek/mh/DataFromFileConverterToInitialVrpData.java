@@ -1,6 +1,7 @@
 package uek.mh;
 
 import uek.mh.algorithms.HaversineDistanceCalculator;
+import uek.mh.models.Coordinates;
 import uek.mh.models.VrpData;
 import uek.mh.utils.FileFromResourcesReader;
 
@@ -60,7 +61,7 @@ public class DataFromFileConverterToInitialVrpData {
     }
 
     private void readCoordinates() throws IOException {
-        vrpData.coordinates = new double[vrpData.numberOfCities + 1][2];
+        vrpData.coordinates = new ArrayList<>();
         String line;
         while (!((line = reader.readLine()).equalsIgnoreCase("CITY_DEMAND"))) {
             parseRow(line);
@@ -69,10 +70,9 @@ public class DataFromFileConverterToInitialVrpData {
 
     private void parseRow(String line) {
         String[] split = line.split("\\s+");
-
-        int i = Integer.valueOf(split[0].trim());
-        vrpData.coordinates[i][0] = Double.valueOf(split[1].trim());
-        vrpData.coordinates[i][1] = Double.valueOf(split[2].trim());
+        double latitude = Double.valueOf(split[1].trim());
+        double longitude = Double.valueOf(split[2].trim());
+        vrpData.coordinates.add(new Coordinates(latitude, longitude));
     }
 
     private void readDemand() throws IOException {
@@ -90,12 +90,9 @@ public class DataFromFileConverterToInitialVrpData {
         for (int i = 0; i < vrpData.numberOfCities; i++) {
             for (int j = i; j < vrpData.numberOfCities; j++) {
                 if (i != j) {
-                    double x1 = vrpData.coordinates[i][0];
-                    double y1 = vrpData.coordinates[i][1];
-                    double x2 = vrpData.coordinates[j][0];
-                    double y2 = vrpData.coordinates[j][1];
+                    vrpData.distance[i][j] = haversineDistanceCalculator
+                            .calculateDistance(vrpData.getCoordinates().get(i), vrpData.getCoordinates().get(j));
 
-                    vrpData.distance[i][j] = haversineDistanceCalculator.calculateDistance(x1, y1, x2, y2);
                     vrpData.distance[j][i] = vrpData.distance[i][j];
                 }
             }
