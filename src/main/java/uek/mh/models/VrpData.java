@@ -8,7 +8,7 @@ public class VrpData {
     public int iterations = 10000;
     public int tabuHorizonSize = 10;
 
-    public int dimension;
+    public int numberOfCities;
     public int vehicleCapacity;
     public double[][] coordinates;
     public double[][] distance;

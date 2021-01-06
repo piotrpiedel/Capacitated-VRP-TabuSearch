@@ -45,7 +45,7 @@ public class DataFromFileConverterToInitialVrpData {
             String key = split[0].trim();
 
             if (key.equalsIgnoreCase("DIMENSION")) {
-                vrpData.dimension = Integer.parseInt(split[1].trim());
+                vrpData.numberOfCities = Integer.parseInt(split[1].trim());
             }
 
             if (key.equalsIgnoreCase("VEHICLE_CAPACITY")) {
@@ -59,7 +59,7 @@ public class DataFromFileConverterToInitialVrpData {
     }
 
     private void readCoordinates() throws IOException {
-        vrpData.coordinates = new double[vrpData.dimension][2];
+        vrpData.coordinates = new double[vrpData.numberOfCities][2];
         String line;
         while (!((line = reader.readLine()).equalsIgnoreCase("CITY_DEMAND"))) {
             parseRow(line, vrpData.coordinates);
@@ -75,7 +75,7 @@ public class DataFromFileConverterToInitialVrpData {
     }
 
     private void readDemand() throws IOException {
-        vrpData.demand = new int[vrpData.dimension];
+        vrpData.demand = new int[vrpData.numberOfCities];
         String line;
         while (!((line = reader.readLine()).equalsIgnoreCase("DEPOT_COORDINATES"))) {
             String[] split = line.split("\\s+");
@@ -85,10 +85,10 @@ public class DataFromFileConverterToInitialVrpData {
     }
 
     private void convertCoordinatesToDistance() {
-        vrpData.distance = new double[vrpData.dimension][vrpData.dimension];
+        vrpData.distance = new double[vrpData.numberOfCities][vrpData.numberOfCities];
 
-        for (int i = 0; i < vrpData.dimension; i++) {
-            for (int j = i; j < vrpData.dimension; j++) {
+        for (int i = 0; i < vrpData.numberOfCities; i++) {
+            for (int j = i; j < vrpData.numberOfCities; j++) {
                 if (i != j) {
                     double x1 = vrpData.coordinates[i][0];
                     double y1 = vrpData.coordinates[i][1];

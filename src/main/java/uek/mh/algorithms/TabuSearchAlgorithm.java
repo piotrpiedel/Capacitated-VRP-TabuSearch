@@ -20,7 +20,6 @@ public class TabuSearchAlgorithm {
 
     public TabuSearchAlgorithm(VrpData vrpData) throws IOException {
 
-        this.numberOfVehicles = vrpData.getVehicles();
         this.distances = vrpData.getDistance();
         this.tabuMemoryTime = vrpData.getTabuHorizonSize();
         this.totalIterations = vrpData.getIterations();
@@ -28,7 +27,9 @@ public class TabuSearchAlgorithm {
         GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpData);
         greedyAlgorithm.run();
         this.vehicles = greedyAlgorithm.getVehicles();
+        System.out.println(vehicles.length);
         this.cost = greedyAlgorithm.getCost();
+        this.numberOfVehicles = greedyAlgorithm.getFinalNumberOfUsedVehicles();
 
         this.bestSolution = new Vehicle[this.numberOfVehicles];
 
