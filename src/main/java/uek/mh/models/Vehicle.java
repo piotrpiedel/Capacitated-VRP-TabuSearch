@@ -3,7 +3,7 @@ package uek.mh.models;
 import java.util.ArrayList;
 
 public class Vehicle {
-    public ArrayList<Node> stopPoints = new ArrayList<>();
+    public ArrayList<City> stopPoints = new ArrayList<>();
     private final int capacity;
     public int load;
     public int currentLocation;
@@ -15,11 +15,11 @@ public class Vehicle {
         this.stopPoints.clear();
     }
 
-    public void addStopPointToVehicle(Node customer)
+    public void addStopPointToVehicle(City customer)
     {
         stopPoints.add(customer);
         this.load += customer.demand;
-        this.currentLocation = customer.nodeId;
+        this.currentLocation = customer.cityId;
     }
 
     public boolean checkIfCapacityFits(int dem) {

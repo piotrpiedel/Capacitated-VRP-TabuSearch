@@ -1,7 +1,7 @@
 package uek.mh.algorithms;
 
 import lombok.Getter;
-import uek.mh.models.Node;
+import uek.mh.models.City;
 import uek.mh.models.Vehicle;
 import uek.mh.models.VrpData;
 
@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 public class GreedyAlgorithm {
     private final int noOfVehicles;
-    private final List<Node> nodes;
+    private final List<City> cities;
     private final double[][] distances;
     private final int numberOfCities;
     private final List<Vehicle> vehicles;
@@ -25,48 +25,52 @@ public class GreedyAlgorithm {
         this.distances = vrpData.getDistance();
         this.cost = 0;
 
-        nodes = new ArrayList<>();
-
+        cities = new ArrayList<>();
         for (int i = 0; i < numberOfCities; i++) {
-            nodes.add(new Node(i, vrpData.getDemand()[i]));
+            cities.add(new City(i, vrpData.getDemandForCity(i)));
         }
 
-        this.vehicles = new ArrayList<>();
+        vehicles = createVehiclesWithGivenCapacity(vrpData);
+    }
 
+    private List<Vehicle> createVehiclesWithGivenCapacity(VrpData vrpData) {
+        List<Vehicle> vehicles = new ArrayList<>();
         for (int i = 0; i < this.noOfVehicles; i++) {
             vehicles.add(new Vehicle(vrpData.getVehicleCapacity()));
         }
+        return vehicles;
     }
 
-    private boolean unassignedCustomerExists(List<Node> nodes) {
-        for (int i = 1; i < nodes.size(); i++) {
-            if (!nodes.get(i).isRouted)
+    private boolean isAnyCityUnassigned(List<City> cities) {
+        for (int i = 1; i < cities.size(); i++) {
+            if (!cities.get(i).isRouted)
                 return true;
         }
         return false;
     }
 
     public GreedyAlgorithm run() {
-        double candidateCost, endCost;
-        int vehIndex = 0;
+        double endCost;
+        double candidateCost;
+        int vehicleIndex = 0;
 
-        while (unassignedCustomerExists(nodes)) {
+        while (isAnyCityUnassigned(cities)) {
             int customerIndex = 0;
-            Node candidate = null;
+            City candidate = null;
             double minCost = Double.MAX_VALUE;
 
-            if (vehicles.get(vehIndex).stopPoints.isEmpty()) {
-                vehicles.get(vehIndex).addStopPointToVehicle(nodes.get(0));
+            if (vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
+                vehicles.get(vehicleIndex).addStopPointToVehicle(cities.get(0));
             }
 
             for (int i = 0; i < numberOfCities; i++) {
-                if (!nodes.get(i).isRouted) {
-                    if (vehicles.get(vehIndex).checkIfCapacityFits(nodes.get(i).demand)) {
-                        candidateCost = distances[vehicles.get(vehIndex).currentLocation][i];
+                if (isCityRouted(i)) {
+                    if (vehicles.get(vehicleIndex).checkIfCapacityFits(cities.get(i).demand)) {
+                        candidateCost = distances[vehicles.get(vehicleIndex).currentLocation][i];
                         if (minCost > candidateCost) {
                             minCost = candidateCost;
                             customerIndex = i;
-                            candidate = nodes.get(i);
+                            candidate = cities.get(i);
                         }
                     }
                 }
@@ -74,14 +78,14 @@ public class GreedyAlgorithm {
 
             if (candidate == null) {
                 //Not a single Customer Fits
-                if (vehIndex + 1 < vehicles.size()) //We have more vehicles to assign
+                if (vehicleIndex + 1 < vehicles.size()) //We have more vehicles to assign
                 {
-                    if (vehicles.get(vehIndex).currentLocation != 0) {//End this route
-                        endCost = distances[vehicles.get(vehIndex).currentLocation][0];
-                        vehicles.get(vehIndex).addStopPointToVehicle(nodes.get(0));
+                    if (vehicles.get(vehicleIndex).currentLocation != 0) {//End this route
+                        endCost = distances[vehicles.get(vehicleIndex).currentLocation][0];
+                        vehicles.get(vehicleIndex).addStopPointToVehicle(cities.get(0));
                         this.cost += endCost;
                     }
-                    vehIndex = vehIndex + 1; //Go to next Vehicle
+                    vehicleIndex = vehicleIndex + 1; //Go to next Vehicle
                 } else //We DO NOT have any more vehicle to assign. The problem is unsolved under these parameters
                 {
                     System.out.println("\nThe rest customers do not fit in any Vehicle\n" +
@@ -89,39 +93,23 @@ public class GreedyAlgorithm {
                     System.exit(0);
                 }
             } else {
-                vehicles.get(vehIndex).addStopPointToVehicle(candidate);//If a fitting Customer is Found
-                nodes.get(customerIndex).isRouted = true;
+                vehicles.get(vehicleIndex).addStopPointToVehicle(candidate);//If a fitting Customer is Found
+                cities.get(customerIndex).isRouted = true;
                 this.cost += minCost;
             }
         }
 
-        endCost = distances[vehicles.get(vehIndex).currentLocation][0];
-        vehicles.get(vehIndex).addStopPointToVehicle(nodes.get(0));
+        endCost = distances[vehicles.get(vehicleIndex).currentLocation][0];
+        vehicles.get(vehicleIndex).addStopPointToVehicle(cities.get(0));
         this.cost += endCost;
 
-        finalNumberOfUsedVehicles = vehIndex;
+        finalNumberOfUsedVehicles = vehicleIndex;
         return this;
     }
 
-//    public void print() {
-//        System.out.println("=========================================================");
-//
-//        for (int j = 0; j < noOfVehicles; j++) {
-//            if (!vehicles[j].routes.isEmpty()) {
-//                System.out.print("Vehicle " + j + ":");
-//                int RoutSize = vehicles[j].routes.size();
-//                for (int k = 0; k < RoutSize; k++) {
-//                    if (k == RoutSize - 1) {
-//                        System.out.print(vehicles[j].routes.get(k).nodeId);
-//                    } else {
-//                        System.out.print(vehicles[j].routes.get(k).nodeId + "->");
-//                    }
-//                }
-//                System.out.println();
-//            }
-//        }
-//        System.out.println("\nBest Value: " + this.cost + "\n");
-//    }
+    private boolean isCityRouted(int i) {
+        return !cities.get(i).isRouted;
+    }
 }
 
 

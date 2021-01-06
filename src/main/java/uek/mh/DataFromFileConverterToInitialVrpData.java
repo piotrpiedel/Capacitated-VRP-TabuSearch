@@ -5,6 +5,7 @@ import uek.mh.models.VrpData;
 import uek.mh.utils.FileFromResourcesReader;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class DataFromFileConverterToInitialVrpData {
 
@@ -75,12 +76,11 @@ public class DataFromFileConverterToInitialVrpData {
     }
 
     private void readDemand() throws IOException {
-        vrpData.demand = new int[vrpData.numberOfCities];
+        vrpData.demand = new ArrayList<>(vrpData.numberOfCities);
         String line;
         while (!((line = reader.readLine()).equalsIgnoreCase("DEPOT_COORDINATES"))) {
             String[] split = line.split("\\s+");
-            int i = Integer.valueOf(split[0].trim()) - 1;
-            vrpData.demand[i] = Integer.valueOf(split[1].trim());
+            vrpData.demand.add(Integer.valueOf(split[1].trim()));
         }
     }
 

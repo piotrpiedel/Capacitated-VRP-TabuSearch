@@ -1,12 +1,12 @@
 package uek.mh.models;
 
-public class Node {
-    public int nodeId;
+public class City {
+    public int cityId;
     public int demand;
     public boolean isRouted;
 
-    public Node(int id, int demand) {
-        this.nodeId = id;
+    public City(int id, int demand) {
+        this.cityId = id;
         this.demand = demand;
         this.isRouted = false;
     }

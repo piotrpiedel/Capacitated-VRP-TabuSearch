@@ -2,6 +2,8 @@ package uek.mh.models;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class VrpData {
     public int vehicles;
@@ -12,7 +14,9 @@ public class VrpData {
     public int vehicleCapacity;
     public double[][] coordinates;
     public double[][] distance;
-    public int[] demand;
+    public List<Integer> demand;
 
-
+    public int getDemandForCity(int i) {
+        return demand.get(i);
+    }
 }
