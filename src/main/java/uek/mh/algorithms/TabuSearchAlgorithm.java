@@ -183,7 +183,7 @@ public class TabuSearchAlgorithm {
 
         for (int vehicleIndex = 0; vehicleIndex < this.numberOfVehicles; vehicleIndex++) {
             if (!this.vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
-                System.out.print("Vehicle " + (vehicleIndex + 1) + ":");
+                System.out.print("Vehicle " + (vehicleIndex + 1) + ": 0->");
                 int routSize = this.vehicles.get(vehicleIndex).stopPoints.size();
                 for (int k = 0; k < routSize; k++) {
                     if (k == routSize - 1) {
