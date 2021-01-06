@@ -63,10 +63,6 @@ public class GreedyAlgorithm {
             City candidate = null;
             double minCost = Double.MAX_VALUE;
 
-            if (vehicles.get(currentVehicle).stopPoints.isEmpty()) {
-                vehicles.get(currentVehicle).addStopPointToVehicle(getDepot());
-            }
-
             for (int i = 1; i < numberOfCities; i++) {
                 if (isCityRouted(i)) {
                     if (vehicles.get(currentVehicle).checkIfCapacityFits(getDemandForCityWithId(i))) {
