@@ -7,6 +7,7 @@ import uek.mh.models.VrpDataConfig;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Getter
 public class GreedyAlgorithm {
@@ -46,16 +47,12 @@ public class GreedyAlgorithm {
     }
 
     private boolean isAnyCityUnassignedToVehicle(List<City> cities) {
-        for (int i = 1; i < cities.size(); i++) {
-            if (!cities.get(i).isRouted)
-                return true;
-        }
-        return false;
+        return IntStream.range(1, cities.size()).anyMatch(i -> !cities.get(i).isRouted);
     }
 
     public void runAlgorithm() throws Exception {
         double newBestCost;
-        int currentVehicle = 0;
+        int vehicleIndex = 0;
 
         while (isAnyCityUnassignedToVehicle(cities)) {
             int currentBestCityCandidateIndex = 0;
@@ -64,8 +61,8 @@ public class GreedyAlgorithm {
 
             for (int cityIndex = 1; cityIndex < numberOfCities; cityIndex++) {
                 if (isCityRouted(cityIndex)) {
-                    if (vehicles.get(currentVehicle).checkIfCapacityFits(getDemandForCityWithId(cityIndex))) {
-                        newBestCost = distances[vehicles.get(currentVehicle).currentLocation][cityIndex];
+                    if (vehicles.get(vehicleIndex).checkIfCapacityFits(getDemandForCityWithId(cityIndex))) {
+                        newBestCost = distances[vehicles.get(vehicleIndex).currentLocation][cityIndex];
                         if (newBestCost < currentBestCost) {
                             currentBestCost = newBestCost;
                             currentBestCityCandidateIndex = cityIndex;
@@ -76,18 +73,18 @@ public class GreedyAlgorithm {
             }
 
             if (bestCityCandidate != null) {
-                vehicles.get(currentVehicle).addStopPointToVehicle(bestCityCandidate);//If a fitting Customer is Found
+                vehicles.get(vehicleIndex).addStopPointToVehicle(bestCityCandidate);
                 cities.get(currentBestCityCandidateIndex).isRouted = true;
                 this.cost += currentBestCost;
             } else {
-                if (isVehicleInDepot(currentVehicle)) {
-                    addToCostsDistanceBetweenLastCityAndDepot(currentVehicle);
+                if (isVehicleInDepot(vehicleIndex)) {
+                    addToCostsDistanceBetweenLastCityAndDepot(vehicleIndex);
                 }
-                currentVehicle = getNextVehicle(currentVehicle);
+                vehicleIndex = getNextVehicle(vehicleIndex);
             }
         }
 
-        finalNumberOfUsedVehicles = currentVehicle;
+        finalNumberOfUsedVehicles = vehicleIndex;
     }
 
     private boolean isVehicleInDepot(int currentVehicle) {
