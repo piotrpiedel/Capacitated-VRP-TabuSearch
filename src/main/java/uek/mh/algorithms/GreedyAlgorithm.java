@@ -55,28 +55,28 @@ public class GreedyAlgorithm {
 
     public void runAlgorithm() throws Exception {
         double endCost;
-        double candidateCost;
+        double distanceBeetweenCities;
         int currentVehicle = 0;
 
         while (isAnyCityUnassigned(cities)) {
-            int customerIndex = 0;
-            City candidate = null;
-            double minCost = Double.MAX_VALUE;
+            int currentBestCityCandidateIndex = 0;
+            City bestCityCandidate = null;
+            double currentBestCost = Double.MAX_VALUE;
 
-            for (int i = 1; i < numberOfCities; i++) {
-                if (isCityRouted(i)) {
-                    if (vehicles.get(currentVehicle).checkIfCapacityFits(getDemandForCityWithId(i))) {
-                        candidateCost = distances[vehicles.get(currentVehicle).currentLocation][i];
-                        if (minCost > candidateCost) {
-                            minCost = candidateCost;
-                            customerIndex = i;
-                            candidate = cities.get(i);
+            for (int cityIndex = 1; cityIndex < numberOfCities; cityIndex++) {
+                if (isCityRouted(cityIndex)) {
+                    if (vehicles.get(currentVehicle).checkIfCapacityFits(getDemandForCityWithId(cityIndex))) {
+                        distanceBeetweenCities = distances[vehicles.get(currentVehicle).currentLocation][cityIndex];
+                        if (currentBestCost > distanceBeetweenCities) {
+                            currentBestCost = distanceBeetweenCities;
+                            currentBestCityCandidateIndex = cityIndex;
+                            bestCityCandidate = cities.get(currentBestCityCandidateIndex);
                         }
                     }
                 }
             }
 
-            if (candidate == null) {
+            if (bestCityCandidate == null) {
                 //Not a single Customer Fits
                 if (currentVehicle + 1 < vehicles.size()) { //We have more vehicles to assign
 
@@ -90,9 +90,9 @@ public class GreedyAlgorithm {
                     throw new Exception("Not enough vehicles to solve this problem");
                 }
             } else {
-                vehicles.get(currentVehicle).addStopPointToVehicle(candidate);//If a fitting Customer is Found
-                cities.get(customerIndex).isRouted = true;
-                this.cost += minCost;
+                vehicles.get(currentVehicle).addStopPointToVehicle(bestCityCandidate);//If a fitting Customer is Found
+                cities.get(currentBestCityCandidateIndex).isRouted = true;
+                this.cost += currentBestCost;
             }
         }
 
