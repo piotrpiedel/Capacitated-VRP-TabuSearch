@@ -56,8 +56,9 @@ public class GreedyAlgorithm {
 
             for (int cityIndex = 1; cityIndex < numberOfCities; cityIndex++) {
                 if (isCityRouted(cityIndex)) {
-                    if (isVehicleAbleToAddDemandFromCity(vehicleIndex, cityIndex)) {
-                        newBestCost = distances[vehicles.get(vehicleIndex).currentLocation][cityIndex];
+                    Vehicle vehicle = vehicles.get(vehicleIndex);
+                    if (isVehicleAbleToAddDemandFromCity(vehicle, cityIndex)) {
+                        newBestCost = distances[vehicle.currentLocation][cityIndex];
                         if (newBestCost < currentBestCost) {
                             currentBestCost = newBestCost;
                             currentBestCityCandidateIndex = cityIndex;
@@ -79,8 +80,12 @@ public class GreedyAlgorithm {
         finalNumberOfUsedVehicles = vehicleIndex;
     }
 
-    private boolean isVehicleAbleToAddDemandFromCity(int vehicleIndex, int cityIndex) {
-        return vehicles.get(vehicleIndex).checkIfCapacityFits(getDemandForCityWithId(cityIndex));
+    private boolean isVehicleAbleToAddDemandFromCity(Vehicle vehicle, int cityIndex) {
+        return vehicle.checkIfCapacityFits(getDemandForCityWithId(cityIndex));
+    }
+
+    private int getDemandForCityWithId(int i) {
+        return cities.get(i).demand;
     }
 
     private boolean isAnyCityUnassignedToVehicle(List<City> cities) {
@@ -111,10 +116,6 @@ public class GreedyAlgorithm {
         vehicles.get(currentVehicle).addStopPointToVehicle(getDepot());
         double costBetweenLastCityAndDepot = distances[vehicles.get(currentVehicle).currentLocation][0];
         this.cost += costBetweenLastCityAndDepot;
-    }
-
-    private int getDemandForCityWithId(int i) {
-        return cities.get(i).demand;
     }
 
     private City getDepot() {
