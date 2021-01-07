@@ -37,7 +37,7 @@ public class TabuSearchAlgorithm {
         }
     }
 
-    public TabuSearchAlgorithm run() {
+    public void run() {
         //We use 1-0 exchange move
         ArrayList<City> routeFrom;
         ArrayList<City> routeTo;
@@ -160,8 +160,6 @@ public class TabuSearchAlgorithm {
 
         this.vehicles = Arrays.asList(this.bestSolution);
         this.cost = this.bestSolutionCost;
-
-        return this;
     }
 
     private void saveBestSolution() {

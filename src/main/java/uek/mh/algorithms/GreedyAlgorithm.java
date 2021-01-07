@@ -53,7 +53,7 @@ public class GreedyAlgorithm {
         return false;
     }
 
-    public GreedyAlgorithm runAlgorithm() throws Exception {
+    public void runAlgorithm() throws Exception {
         double endCost;
         double candidateCost;
         int currentVehicle = 0;
@@ -101,7 +101,6 @@ public class GreedyAlgorithm {
         this.cost += endCost;
 
         finalNumberOfUsedVehicles = currentVehicle;
-        return this;
     }
 
     private int getDemandForCityWithId(int i) {

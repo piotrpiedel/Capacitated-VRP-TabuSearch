@@ -25,8 +25,8 @@ public class VRPRunner {
 //                .printOnlyCalculatedCost();
 
         VrpDataConfig vrpDataConfigPolandCitiesFromMhProject = DataFromFileConverterToInitialVrpData.convert("datasets/supported_datasets/Mhprojekt.vrp");
-        new TabuSearchAlgorithm(vrpDataConfigPolandCitiesFromMhProject)
-                .run()
-                .printAll();
+        TabuSearchAlgorithm tabuSearchAlgorithm = new TabuSearchAlgorithm(vrpDataConfigPolandCitiesFromMhProject);
+        tabuSearchAlgorithm.run();
+        tabuSearchAlgorithm.printAll();
     }
 }
