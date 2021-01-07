@@ -22,6 +22,6 @@ public class Vehicle {
     }
 
     public boolean checkIfCapacityFits(int dem) {
-        return load + dem <= capacity;
+        return (this.load + dem <= capacity);
     }
 }

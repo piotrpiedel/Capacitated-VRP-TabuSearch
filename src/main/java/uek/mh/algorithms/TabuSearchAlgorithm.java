@@ -146,10 +146,10 @@ public class TabuSearchAlgorithm {
             }
 
             this.vehicles.get(swapRouteFrom).stopPoints = routeFrom;
-            this.vehicles.get(swapRouteFrom).load -= currentNodeDemand;
+            this.vehicles.get(swapRouteFrom).load -= swapCity.demand;
 
             this.vehicles.get(swapRouteTo).stopPoints = routeTo;
-            this.vehicles.get(swapRouteTo).load += currentNodeDemand;
+            this.vehicles.get(swapRouteTo).load += swapCity.demand;
 
             this.cost += bestIterationCost;
 
@@ -177,11 +177,11 @@ public class TabuSearchAlgorithm {
     }
 
     public void printAll() {
-        System.out.println("================TABU SEARCH=============================");
-
+//        System.out.println("================TABU SEARCH=============================");
+//
         for (int vehicleIndex = 0; vehicleIndex < this.numberOfVehicles; vehicleIndex++) {
             if (!this.vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
-                System.out.print("Vehicle " + (vehicleIndex + 1)  + " Load for vehicle " + vehicles.get(vehicleIndex).load + ": 0->");
+                System.out.print("Vehicle " + (vehicleIndex + 1)  + " Load for vehicle " + this.vehicles.get(vehicleIndex).load + ": 0->");
                 int routSize = this.vehicles.get(vehicleIndex).stopPoints.size();
                 for (int k = 0; k < routSize; k++) {
                     if (k == routSize - 1) {
