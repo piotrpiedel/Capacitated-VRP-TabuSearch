@@ -54,6 +54,10 @@ public class GreedyAlgorithm {
             Integer currentBestCityCandidateIndex = null;
             double currentBestCost = Double.MAX_VALUE;
 
+            if (vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
+                vehicles.get(vehicleIndex).addStopPointToVehicle(cities.get(0));
+            }
+
             for (int cityIndex = 1; cityIndex < numberOfCities; cityIndex++) {
                 if (isCityRouted(cityIndex)) {
                     Vehicle vehicle = vehicles.get(vehicleIndex);
@@ -131,7 +135,7 @@ public class GreedyAlgorithm {
 
         for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {
             if (!vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
-                System.out.print("Vehicle " + (vehicleIndex + 1)  + " Load for vehicle " + vehicles.get(vehicleIndex).load + ": 0->");
+                System.out.print("Vehicle " + (vehicleIndex + 1)  + " Load for vehicle " + vehicles.get(vehicleIndex).load + ":");
                 int routSize = vehicles.get(vehicleIndex).stopPoints.size();
                 for (int k = 0; k < routSize; k++) {
                     if (k == routSize - 1) {
