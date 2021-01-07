@@ -54,7 +54,7 @@ public class GreedyAlgorithm {
     }
 
     public void runAlgorithm() throws Exception {
-        double distanceBetweenCities;
+        double newBestCost;
         int currentVehicle = 0;
 
         while (isAnyCityUnassignedToVehicle(cities)) {
@@ -65,9 +65,9 @@ public class GreedyAlgorithm {
             for (int cityIndex = 1; cityIndex < numberOfCities; cityIndex++) {
                 if (isCityRouted(cityIndex)) {
                     if (vehicles.get(currentVehicle).checkIfCapacityFits(getDemandForCityWithId(cityIndex))) {
-                        distanceBetweenCities = distances[vehicles.get(currentVehicle).currentLocation][cityIndex];
-                        if (currentBestCost > distanceBetweenCities) {
-                            currentBestCost = distanceBetweenCities;
+                        newBestCost = distances[vehicles.get(currentVehicle).currentLocation][cityIndex];
+                        if (newBestCost < currentBestCost) {
+                            currentBestCost = newBestCost;
                             currentBestCityCandidateIndex = cityIndex;
                             bestCityCandidate = cities.get(currentBestCityCandidateIndex);
                         }
