@@ -45,7 +45,7 @@ public class GreedyAlgorithm {
         return vehicles;
     }
 
-    private boolean isAnyCityUnassigned(List<City> cities) {
+    private boolean isAnyCityUnassignedToVehicle(List<City> cities) {
         for (int i = 1; i < cities.size(); i++) {
             if (!cities.get(i).isRouted)
                 return true;
@@ -54,11 +54,10 @@ public class GreedyAlgorithm {
     }
 
     public void runAlgorithm() throws Exception {
-        double endCost;
-        double distanceBeetweenCities;
+        double distanceBetweenCities;
         int currentVehicle = 0;
 
-        while (isAnyCityUnassigned(cities)) {
+        while (isAnyCityUnassignedToVehicle(cities)) {
             int currentBestCityCandidateIndex = 0;
             City bestCityCandidate = null;
             double currentBestCost = Double.MAX_VALUE;
@@ -66,9 +65,9 @@ public class GreedyAlgorithm {
             for (int cityIndex = 1; cityIndex < numberOfCities; cityIndex++) {
                 if (isCityRouted(cityIndex)) {
                     if (vehicles.get(currentVehicle).checkIfCapacityFits(getDemandForCityWithId(cityIndex))) {
-                        distanceBeetweenCities = distances[vehicles.get(currentVehicle).currentLocation][cityIndex];
-                        if (currentBestCost > distanceBeetweenCities) {
-                            currentBestCost = distanceBeetweenCities;
+                        distanceBetweenCities = distances[vehicles.get(currentVehicle).currentLocation][cityIndex];
+                        if (currentBestCost > distanceBetweenCities) {
+                            currentBestCost = distanceBetweenCities;
                             currentBestCityCandidateIndex = cityIndex;
                             bestCityCandidate = cities.get(currentBestCityCandidateIndex);
                         }
@@ -107,8 +106,8 @@ public class GreedyAlgorithm {
 
     private void addToCostsDistanceBetweenLastCityAndDepot(int currentVehicle) {
         vehicles.get(currentVehicle).addStopPointToVehicle(getDepot());
-        double endCost = distances[vehicles.get(currentVehicle).currentLocation][0];
-        this.cost += endCost;
+        double costBetweenLastCityAndDepot = distances[vehicles.get(currentVehicle).currentLocation][0];
+        this.cost += costBetweenLastCityAndDepot;
     }
 
     private int getDemandForCityWithId(int i) {
