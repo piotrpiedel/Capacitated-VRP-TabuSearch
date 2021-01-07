@@ -19,7 +19,7 @@ public class TabuSearchAlgorithm {
 
     private double bestSolutionCost;
 
-    public TabuSearchAlgorithm(VrpDataConfig vrpDataConfig) {
+    public TabuSearchAlgorithm(VrpDataConfig vrpDataConfig) throws Exception {
         GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpDataConfig);
         greedyAlgorithm.runAlgorithm();
         greedyAlgorithm.print();

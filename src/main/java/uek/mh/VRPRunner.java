@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class VRPRunner {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 //        VrpData vrpDataForFirstRun = DataFromFileConverterToInitialVrpData.convert("datasets/supported_datasets/Golden_20.vrp");
 //        new TabuSearchAlgorithm(vrpDataForFirstRun)
 //                .run()

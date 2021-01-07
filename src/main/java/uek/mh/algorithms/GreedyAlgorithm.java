@@ -53,7 +53,7 @@ public class GreedyAlgorithm {
         return false;
     }
 
-    public GreedyAlgorithm runAlgorithm() {
+    public GreedyAlgorithm runAlgorithm() throws Exception {
         double endCost;
         double candidateCost;
         int currentVehicle = 0;
@@ -86,10 +86,8 @@ public class GreedyAlgorithm {
                         this.cost += endCost;
                     }
                     currentVehicle = currentVehicle + 1; //Go to next Vehicle
-                } else { //We DO NOT have any more vehicle to assign. The problem is unsolved under these parameters
-                    System.out.println("\nThe rest customers do not fit in any Vehicle\n" +
-                            "The problem cannot be resolved under these constrains");
-                    System.exit(0);
+                } else {
+                    throw new Exception("Not enough vehicles to solve this problem");
                 }
             } else {
                 vehicles.get(currentVehicle).addStopPointToVehicle(candidate);//If a fitting Customer is Found
