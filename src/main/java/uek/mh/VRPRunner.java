@@ -58,12 +58,10 @@ public class VRPRunner {
                             System.out.print("Vehicle " + (vehicleIndex + 1) + " Load for vehicle " + vehicles.get(vehicleIndex).load + ":");
                             int routSize = vehicles.get(vehicleIndex).stopPoints.size();
                             for (int k = 0; k < routSize; k++) {
-                                    for (int k = 0; k < routSize; k++) {
-                                            if (k == routSize - 1) {
-                                                    System.out.print(vehicles.get(vehicleIndex).stopPoints.get(k).cityId);
-                                            } else {
-                                                    System.out.print(vehicles.get(vehicleIndex).stopPoints.get(k).cityId + "->");
-                                            }
+                                    if (k == routSize - 1) {
+                                            System.out.print(vehicles.get(vehicleIndex).stopPoints.get(k).cityId);
+                                    } else {
+                                            System.out.print(vehicles.get(vehicleIndex).stopPoints.get(k).cityId + "->");
                                     }
                             }
                             System.out.println();
