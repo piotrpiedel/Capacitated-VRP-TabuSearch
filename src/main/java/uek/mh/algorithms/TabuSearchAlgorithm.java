@@ -5,7 +5,6 @@ import uek.mh.models.Vehicle;
 import uek.mh.models.VrpDataConfig;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class TabuSearchAlgorithm {
@@ -16,6 +15,7 @@ public class TabuSearchAlgorithm {
     private final int totalIterations;
     private List<Vehicle> vehicles;
     private double cost;
+    private List<City> cities;
 
     private double bestSolutionCost;
 
@@ -23,6 +23,7 @@ public class TabuSearchAlgorithm {
         GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpDataConfig);
         greedyAlgorithm.runAlgorithm();
         greedyAlgorithm.print();
+        this.cities = greedyAlgorithm.getCities();
 
         this.distances = vrpDataConfig.getDistance();
         this.tabuMemoryTime = vrpDataConfig.getTabuHorizonSize();
@@ -199,6 +200,18 @@ public class TabuSearchAlgorithm {
     public void printOnlyCalculatedCost() {
         System.out.println("=========================================================");
         System.out.println("\nBest Value: " + this.cost + "\n");
+    }
+
+    public int getNumberOfVehicles() {
+        return numberOfVehicles;
+    }
+
+    public List<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public List<City> getCities() {
+        return cities;
     }
 }
 
