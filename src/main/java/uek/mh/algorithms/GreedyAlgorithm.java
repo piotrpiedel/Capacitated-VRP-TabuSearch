@@ -55,8 +55,7 @@ public class GreedyAlgorithm {
         int vehicleIndex = 0;
 
         while (isAnyCityUnassignedToVehicle(cities)) {
-            int currentBestCityCandidateIndex = 0;
-            City bestCityCandidate = null;
+            Integer currentBestCityCandidateIndex = null;
             double currentBestCost = Double.MAX_VALUE;
 
             for (int cityIndex = 1; cityIndex < numberOfCities; cityIndex++) {
@@ -66,14 +65,13 @@ public class GreedyAlgorithm {
                         if (newBestCost < currentBestCost) {
                             currentBestCost = newBestCost;
                             currentBestCityCandidateIndex = cityIndex;
-                            bestCityCandidate = cities.get(currentBestCityCandidateIndex);
                         }
                     }
                 }
             }
 
-            if (bestCityCandidate != null) {
-                vehicles.get(vehicleIndex).addStopPointToVehicle(bestCityCandidate);
+            if (currentBestCityCandidateIndex != null) {
+                vehicles.get(vehicleIndex).addStopPointToVehicle(cities.get(currentBestCityCandidateIndex));
                 cities.get(currentBestCityCandidateIndex).isRouted = true;
                 this.cost += currentBestCost;
             } else {
