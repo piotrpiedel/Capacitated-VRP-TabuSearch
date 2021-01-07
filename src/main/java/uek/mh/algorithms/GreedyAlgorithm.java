@@ -46,10 +46,6 @@ public class GreedyAlgorithm {
         return vehicles;
     }
 
-    private boolean isAnyCityUnassignedToVehicle(List<City> cities) {
-        return IntStream.range(1, cities.size()).anyMatch(i -> !cities.get(i).isRouted);
-    }
-
     public void runAlgorithm() throws Exception {
         double newBestCost;
         int vehicleIndex = 0;
@@ -60,7 +56,7 @@ public class GreedyAlgorithm {
 
             for (int cityIndex = 1; cityIndex < numberOfCities; cityIndex++) {
                 if (isCityRouted(cityIndex)) {
-                    if (vehicles.get(vehicleIndex).checkIfCapacityFits(getDemandForCityWithId(cityIndex))) {
+                    if (isVehicleAbleToAddDemandFromCity(vehicleIndex, cityIndex)) {
                         newBestCost = distances[vehicles.get(vehicleIndex).currentLocation][cityIndex];
                         if (newBestCost < currentBestCost) {
                             currentBestCost = newBestCost;
@@ -81,6 +77,14 @@ public class GreedyAlgorithm {
         }
 
         finalNumberOfUsedVehicles = vehicleIndex;
+    }
+
+    private boolean isVehicleAbleToAddDemandFromCity(int vehicleIndex, int cityIndex) {
+        return vehicles.get(vehicleIndex).checkIfCapacityFits(getDemandForCityWithId(cityIndex));
+    }
+
+    private boolean isAnyCityUnassignedToVehicle(List<City> cities) {
+        return IntStream.range(1, cities.size()).anyMatch(i -> !cities.get(i).isRouted);
     }
 
     private void addCityToVehicleRouteForbidFromRoutingAgain(int vehicleIndex, Integer currentBestCityCandidateIndex, double currentBestCost) {
