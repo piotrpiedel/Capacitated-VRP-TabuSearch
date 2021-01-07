@@ -71,9 +71,7 @@ public class GreedyAlgorithm {
             }
 
             if (currentBestCityCandidateIndex != null) {
-                vehicles.get(vehicleIndex).addStopPointToVehicle(cities.get(currentBestCityCandidateIndex));
-                cities.get(currentBestCityCandidateIndex).isRouted = true;
-                this.cost += currentBestCost;
+                addCityToVehicleRouteForbidFromRoutingAgain(vehicleIndex, currentBestCityCandidateIndex, currentBestCost);
             } else {
                 if (isVehicleInDepot(vehicleIndex)) {
                     addToCostsDistanceBetweenLastCityAndDepot(vehicleIndex);
@@ -83,6 +81,12 @@ public class GreedyAlgorithm {
         }
 
         finalNumberOfUsedVehicles = vehicleIndex;
+    }
+
+    private void addCityToVehicleRouteForbidFromRoutingAgain(int vehicleIndex, Integer currentBestCityCandidateIndex, double currentBestCost) {
+        vehicles.get(vehicleIndex).addStopPointToVehicle(cities.get(currentBestCityCandidateIndex));
+        cities.get(currentBestCityCandidateIndex).isRouted = true;
+        this.cost += currentBestCost;
     }
 
     private boolean isVehicleInDepot(int currentVehicle) {
