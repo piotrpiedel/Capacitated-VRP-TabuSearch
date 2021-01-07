@@ -76,31 +76,39 @@ public class GreedyAlgorithm {
                 }
             }
 
-            if (bestCityCandidate == null) {
-                //Not a single Customer Fits
-                if (currentVehicle + 1 < vehicles.size()) { //We have more vehicles to assign
-
-                    if (vehicles.get(currentVehicle).currentLocation != 0) {//End this route
-                        endCost = distances[vehicles.get(currentVehicle).currentLocation][0];
-                        vehicles.get(currentVehicle).addStopPointToVehicle(getDepot());
-                        this.cost += endCost;
-                    }
-                    currentVehicle = currentVehicle + 1; //Go to next Vehicle
-                } else {
-                    throw new Exception("Not enough vehicles to solve this problem");
-                }
-            } else {
+            if (bestCityCandidate != null) {
                 vehicles.get(currentVehicle).addStopPointToVehicle(bestCityCandidate);//If a fitting Customer is Found
                 cities.get(currentBestCityCandidateIndex).isRouted = true;
                 this.cost += currentBestCost;
+            } else {
+                if (isVehicleInDepot(currentVehicle)) {
+                    addToCostsDistanceBetweenLastCityAndDepot(currentVehicle);
+                }
+                currentVehicle = getNextVehicle(currentVehicle);
             }
         }
 
-        endCost = distances[vehicles.get(currentVehicle).currentLocation][0];
-        vehicles.get(currentVehicle).addStopPointToVehicle(getDepot());
-        this.cost += endCost;
-
         finalNumberOfUsedVehicles = currentVehicle;
+    }
+
+    private boolean isVehicleInDepot(int currentVehicle) {
+        return vehicles.get(currentVehicle).currentLocation != 0;
+    }
+
+    private int getNextVehicle(int vehicle) throws Exception {
+        int nextVehicle;
+        if (vehicle + 1 < vehicles.size()) {
+            nextVehicle = vehicle + 1;
+        } else {
+            throw new Exception("Not enough vehicles to solve this problem");
+        }
+        return nextVehicle;
+    }
+
+    private void addToCostsDistanceBetweenLastCityAndDepot(int currentVehicle) {
+        vehicles.get(currentVehicle).addStopPointToVehicle(getDepot());
+        double endCost = distances[vehicles.get(currentVehicle).currentLocation][0];
+        this.cost += endCost;
     }
 
     private int getDemandForCityWithId(int i) {
