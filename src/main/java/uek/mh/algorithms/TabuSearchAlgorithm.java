@@ -186,9 +186,9 @@ public class TabuSearchAlgorithm {
                 int routSize = this.vehicles.get(vehicleIndex).stopPoints.size();
                 for (int k = 0; k < routSize; k++) {
                     if (k == routSize - 1) {
-                        System.out.print(this.vehicles.get(vehicleIndex).stopPoints.get(k).cityId);
+                        System.out.print(this.vehicles.get(vehicleIndex).stopPoints.get(k).getName());
                     } else {
-                        System.out.print(this.vehicles.get(vehicleIndex).stopPoints.get(k).cityId + "->");
+                        System.out.print(this.vehicles.get(vehicleIndex).stopPoints.get(k).getName() + "->");
                     }
                 }
                 System.out.println();

@@ -21,16 +21,16 @@ public class GraphBuilder {
     public Graph buildGraph() {
         Graph graph = new SingleGraph("CVRP visualization");
         for (City city : cities) {
-            graph.addNode(String.valueOf(city.cityId))
-                    .setAttribute("xy", city.getCoordinates().getLatitude(), city.getCoordinates().getLongitude());
+            graph.addNode(String.valueOf(city.getName()))
+                    .setAttribute("xy", city.getCoordinates().getLongitude(), city.getCoordinates().getLatitude());
 
         }
         for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {
             if (!vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
                 int routSize = vehicles.get(vehicleIndex).stopPoints.size();
                 for (int k = 0; k < routSize - 1; k++) {
-                    graph.addEdge(String.valueOf(vehicles.get(vehicleIndex).stopPoints.get(k).cityId) + vehicles.get(vehicleIndex).stopPoints.get(k + 1).cityId,
-                            String.valueOf(vehicles.get(vehicleIndex).stopPoints.get(k).cityId), String.valueOf(vehicles.get(vehicleIndex).stopPoints.get(k + 1).cityId));
+                    graph.addEdge(vehicles.get(vehicleIndex).stopPoints.get(k).getName() + vehicles.get(vehicleIndex).stopPoints.get(k + 1).getName(),
+                            String.valueOf(vehicles.get(vehicleIndex).stopPoints.get(k).getName()), String.valueOf(vehicles.get(vehicleIndex).stopPoints.get(k + 1).getName()));
 
                 }
             }

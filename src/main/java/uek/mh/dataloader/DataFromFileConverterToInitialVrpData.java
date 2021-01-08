@@ -72,7 +72,8 @@ public class DataFromFileConverterToInitialVrpData {
         String[] split = line.split("\\s+");
         double latitude = Double.parseDouble(split[1].trim());
         double longitude = Double.parseDouble(split[2].trim());
-        vrpDataConfig.coordinates.add(new Coordinates(latitude, longitude));
+        String cityName = split[3].trim();
+        vrpDataConfig.coordinates.add(new Coordinates(latitude, longitude, cityName));
     }
 
     private void readDemand() throws IOException {
