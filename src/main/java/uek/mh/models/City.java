@@ -7,11 +7,13 @@ public class City {
     public int cityId;
     public int demand;
     public boolean isRouted;
+    Coordinates coordinates;
 
-    public City(int id, int demand) {
+    public City(int id, int demand, Coordinates coordinates) {
         this.cityId = id;
         this.demand = demand;
         this.isRouted = false;
+        this.coordinates = coordinates;
     }
 
 

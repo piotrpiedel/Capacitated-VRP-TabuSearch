@@ -21,7 +21,9 @@ public class GraphBuilder {
     public Graph buildGraph() {
         Graph graph = new SingleGraph("CVRP visualization");
         for (City city : cities) {
-            graph.addNode(String.valueOf(city.cityId));
+            graph.addNode(String.valueOf(city.cityId))
+                    .setAttribute("xy", city.getCoordinates().getLatitude(), city.getCoordinates().getLongitude());
+
         }
         for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {
             if (!vehicles.get(vehicleIndex).stopPoints.isEmpty()) {

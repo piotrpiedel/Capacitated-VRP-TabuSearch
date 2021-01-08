@@ -2,6 +2,7 @@ package uek.mh.algorithms;
 
 import lombok.Getter;
 import uek.mh.models.City;
+import uek.mh.models.Coordinates;
 import uek.mh.models.Vehicle;
 import uek.mh.models.VrpDataConfig;
 
@@ -33,7 +34,7 @@ public class GreedyAlgorithm {
     private List<City> createCitiesWithDemandsFromFile(VrpDataConfig vrpDataConfig) {
         List<City> cities = new ArrayList<>();
         for (int i = 0; i < numberOfCities; i++) {
-            cities.add(new City(i, vrpDataConfig.getDemandForCity(i)));
+            cities.add(new City(i, vrpDataConfig.getDemandForCity(i),vrpDataConfig.getCoordinates().get(i)));
         }
         return cities;
     }
