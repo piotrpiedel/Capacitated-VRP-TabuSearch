@@ -22,7 +22,7 @@ public class GraphBuilder {
         Graph graph = new SingleGraph("CVRP visualization");
         for (City city : cities) {
             graph.addNode(String.valueOf(city.getName()))
-                    .setAttribute("xy", city.getCoordinates().getLatitude(), city.getCoordinates().getLongitude());
+                    .setAttribute("xy", city.getCoordinates().getLongitude(), city.getCoordinates().getLatitude());
 
         }
         for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {

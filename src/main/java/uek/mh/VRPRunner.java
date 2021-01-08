@@ -2,6 +2,7 @@ package uek.mh;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.view.Viewer;
 import uek.mh.algorithms.TabuSearchAlgorithm;
 import uek.mh.dataloader.DataFromFileConverterToInitialVrpData;
 import uek.mh.models.City;
@@ -42,6 +43,7 @@ public class VRPRunner {
 
             GraphBuilder graphBuilder = new GraphBuilder(numberOfVehicles, vehicles, cities);
             Graph graph = graphBuilder.buildGraph();
-            graph.display();
+            Viewer display = graph.display();
+            display.disableAutoLayout();
     }
 }
