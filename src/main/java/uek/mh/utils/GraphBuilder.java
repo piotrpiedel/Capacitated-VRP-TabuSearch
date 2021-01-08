@@ -1,6 +1,7 @@
 package uek.mh.utils;
 
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import uek.mh.models.City;
 import uek.mh.models.Vehicle;
@@ -21,8 +22,10 @@ public class GraphBuilder {
     public Graph buildGraph() {
         Graph graph = new SingleGraph("CVRP visualization");
         for (City city : cities) {
-            graph.addNode(String.valueOf(city.getName()))
-                    .setAttribute("xy", city.getCoordinates().getLongitude(), city.getCoordinates().getLatitude());
+
+            Node node = graph.addNode(String.valueOf(city.getName()));
+            node.setAttribute("xy", city.getCoordinates().getLongitude(), city.getCoordinates().getLatitude());
+            node.setAttribute("ui.label",  city.getName());
 
         }
         for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {

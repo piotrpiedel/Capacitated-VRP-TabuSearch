@@ -2,7 +2,6 @@ package uek.mh.algorithms;
 
 import lombok.Getter;
 import uek.mh.models.City;
-import uek.mh.models.Coordinates;
 import uek.mh.models.Vehicle;
 import uek.mh.models.VrpDataConfig;
 
@@ -59,14 +58,14 @@ public class GreedyAlgorithm {
                 vehicles.get(vehicleIndex).addStopPointToVehicle(cities.get(0));
             }
 
-            for (int cityIndex = 1; cityIndex < numberOfCities; cityIndex++) {
-                if (isCityRouted(cityIndex)) {
+            for (int cityId = 1; cityId < numberOfCities; cityId++) {
+                if (isCityRouted(cityId)) {
                     Vehicle vehicle = vehicles.get(vehicleIndex);
-                    if (isVehicleAbleToAddDemandFromCity(vehicle, cityIndex)) {
-                        newBestCost = distances[vehicle.currentLocation][cityIndex];
+                    if (isVehicleAbleToAddDemandForCity(vehicle, cityId)) {
+                        newBestCost = distances[vehicle.currentLocation][cityId];
                         if (newBestCost < currentBestCost) {
                             currentBestCost = newBestCost;
-                            currentBestCityCandidateIndex = cityIndex;
+                            currentBestCityCandidateIndex = cityId;
                         }
                     }
                 }
@@ -85,7 +84,7 @@ public class GreedyAlgorithm {
         finalNumberOfUsedVehicles = vehicleIndex+1;
     }
 
-    private boolean isVehicleAbleToAddDemandFromCity(Vehicle vehicle, int cityIndex) {
+    private boolean isVehicleAbleToAddDemandForCity(Vehicle vehicle, int cityIndex) {
         return vehicle.checkIfCapacityFits(getDemandForCityWithId(cityIndex));
     }
 

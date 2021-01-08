@@ -43,7 +43,6 @@ public class VRPRunner {
 
             GraphBuilder graphBuilder = new GraphBuilder(numberOfVehicles, vehicles, cities);
             Graph graph = graphBuilder.buildGraph();
-            Viewer display = graph.display();
-            display.disableAutoLayout();
+            graph.display().disableAutoLayout();
     }
 }
