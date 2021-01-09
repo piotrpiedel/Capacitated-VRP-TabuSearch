@@ -1,8 +1,6 @@
 package uek.mh;
 
 import org.graphstream.graph.Graph;
-import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.view.Viewer;
 import uek.mh.algorithms.TabuSearchAlgorithm;
 import uek.mh.dataloader.DataFromFileConverterToInitialVrpData;
 import uek.mh.models.City;
