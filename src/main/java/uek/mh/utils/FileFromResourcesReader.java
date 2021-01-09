@@ -7,7 +7,7 @@ public class FileFromResourcesReader {
     /**
      * @param pathToFileFromResources the location of the file, relative resource folder
      *                                eg. Mhprojekt.vrp
-     * @return
+     * @return BufferedReader
      */
     public BufferedReader loadFile(String pathToFileFromResources) throws FileNotFoundException {
         ClassLoader classLoader = getClass().getClassLoader();
@@ -20,7 +20,6 @@ public class FileFromResourcesReader {
             assert resourceAsStream != null;
             Reader reader = new InputStreamReader(resourceAsStream);
             return new BufferedReader(reader);
-
         }
         throw new FileNotFoundException();
     }
