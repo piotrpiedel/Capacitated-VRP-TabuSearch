@@ -19,7 +19,11 @@ public class TabuSearchAlgorithm {
 
     private double bestSolutionCost;
 
+    private HaversineDistanceCalculator haversineDistanceCalculator;
+
     public TabuSearchAlgorithm(VrpDataConfig vrpDataConfig) throws Exception {
+        haversineDistanceCalculator = new HaversineDistanceCalculator();
+
         GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpDataConfig);
         greedyAlgorithm.runAlgorithm();
         greedyAlgorithm.print();
@@ -180,20 +184,27 @@ public class TabuSearchAlgorithm {
     public void printAll() {
 //        System.out.println("================TABU SEARCH=============================");
 //
+        double totalDistanceToAllVehicles = 0;
         for (int vehicleIndex = 0; vehicleIndex < this.numberOfVehicles; vehicleIndex++) {
             if (!this.vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
-                System.out.print("Vehicle " + (vehicleIndex + 1)  + " Load for vehicle " + this.vehicles.get(vehicleIndex).load + ":");
+                System.out.print("Vehicle " + (vehicleIndex + 1) + " Load for vehicle " + this.vehicles.get(vehicleIndex).load + ":");
                 int routSize = this.vehicles.get(vehicleIndex).stopPoints.size();
+                double distanceSizeForVehicle = 0;
+
                 for (int k = 0; k < routSize; k++) {
                     if (k == routSize - 1) {
                         System.out.print(this.vehicles.get(vehicleIndex).stopPoints.get(k).getName());
                     } else {
-                        System.out.print(this.vehicles.get(vehicleIndex).stopPoints.get(k).getName() + "->");
+                        City city = vehicles.get(vehicleIndex).stopPoints.get(k);
+                        distanceSizeForVehicle += haversineDistanceCalculator.calculateDistance(city.getCoordinates(), vehicles.get(vehicleIndex).stopPoints.get(k + 1).getCoordinates());
+                        System.out.print(city.getName() + "->");
                     }
                 }
+                totalDistanceToAllVehicles += distanceSizeForVehicle;
                 System.out.println();
             }
         }
+        System.out.println("\nDistance from all vehicles: " + totalDistanceToAllVehicles + "\n");
         System.out.println("\nBest Value: " + this.cost + "\n");
     }
 
