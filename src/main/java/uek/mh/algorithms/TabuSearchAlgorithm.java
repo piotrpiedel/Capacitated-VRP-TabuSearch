@@ -200,18 +200,6 @@ public class TabuSearchAlgorithm {
         Graph graph = graphBuilder.buildGraph();
         graph.display().disableAutoLayout();
     }
-
-    public int getNumberOfVehicles() {
-        return numberOfVehicles;
-    }
-
-    public List<Vehicle> getVehicles() {
-        return vehicles;
-    }
-
-    public List<City> getCities() {
-        return cities;
-    }
 }
 
 
