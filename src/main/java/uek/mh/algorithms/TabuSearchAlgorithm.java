@@ -175,13 +175,13 @@ public class TabuSearchAlgorithm {
 
     private void saveBestSolution() {
         bestSolutionCost = cost;
-        for (int j = 0; j < numberOfVehicles; j++) {
-            bestSolution.get(j).getStopPoints().clear();
-            Vehicle vehicle = vehicles.get(j);
+        for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {
+            bestSolution.get(vehicleIndex).getStopPoints().clear();
+            Vehicle vehicle = vehicles.get(vehicleIndex);
             ArrayList<City> stopPoints = vehicle.getStopPoints();
             if (!stopPoints.isEmpty()) {
                 for (City n : stopPoints) {
-                    bestSolution.get(j).getStopPoints().add(n);
+                    bestSolution.get(vehicleIndex).getStopPoints().add(n);
                 }
             }
         }
