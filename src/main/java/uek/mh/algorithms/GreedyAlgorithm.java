@@ -26,10 +26,10 @@ public class GreedyAlgorithm {
         cities = createCitiesWithDemandsFromFile(vrpDataConfig);
         vehicles = createVehiclesWithCapacitiesFromFile(vrpDataConfig);
 
-        this.numberOfCities = vrpDataConfig.getNumberOfCities();
-        this.numberOfVehicles = vrpDataConfig.getNumberOfVehicles();
-        this.distances = vrpDataConfig.getDistance();
-        this.totalRouteCost = 0;
+        numberOfCities = vrpDataConfig.getNumberOfCities();
+        numberOfVehicles = vrpDataConfig.getNumberOfVehicles();
+        distances = vrpDataConfig.getDistance();
+        totalRouteCost = 0;
     }
 
     private List<City> createCitiesWithDemandsFromFile(VrpDataConfig vrpDataConfig) {
@@ -103,7 +103,7 @@ public class GreedyAlgorithm {
         Vehicle vehicle = vehicles.get(vehicleIndex);
         vehicle.addStopPointToVehicle(bestCandidateCity);
         bestCandidateCity.isRouted = true;
-        this.totalRouteCost += currentBestCost;
+        totalRouteCost += currentBestCost;
     }
 
     private boolean isVehicleInDepot(int currentVehicle) {
@@ -123,7 +123,7 @@ public class GreedyAlgorithm {
     private void addToCostsDistanceBetweenLastCityAndDepot(int currentVehicle) {
         double costBetweenLastCityAndDepot = distances[vehicles.get(currentVehicle).currentLocation][0];
         vehicles.get(currentVehicle).addStopPointToVehicle(getDepot());
-        this.totalRouteCost += costBetweenLastCityAndDepot;
+        totalRouteCost += costBetweenLastCityAndDepot;
     }
 
     private City getDepot() {
@@ -152,7 +152,7 @@ public class GreedyAlgorithm {
                 System.out.println();
             }
         }
-        System.out.println("\nBest Value: " + this.totalRouteCost + "\n");
+        System.out.println("\nBest Value: " + totalRouteCost + "\n");
     }
 }
 
