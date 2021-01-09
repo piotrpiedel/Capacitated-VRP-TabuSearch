@@ -1,8 +1,10 @@
 package uek.mh.algorithms;
 
+import org.graphstream.graph.Graph;
 import uek.mh.models.City;
 import uek.mh.models.Vehicle;
 import uek.mh.models.VrpDataConfig;
+import uek.mh.utils.GraphBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,7 @@ public class TabuSearchAlgorithm {
     private GreedyAlgorithm getBestSolutionFromGreedyAlgorithm(VrpDataConfig vrpDataConfig) throws Exception {
         GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpDataConfig);
         greedyAlgorithm.runAlgorithm();
-        greedyAlgorithm.print();
+        greedyAlgorithm.printResult();
         return greedyAlgorithm;
     }
 
@@ -186,25 +188,17 @@ public class TabuSearchAlgorithm {
         }
     }
 
-    public void printAll() {
-        for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {
-            ArrayList<City> stopPointsForVehicle = vehicles.get(vehicleIndex).stopPoints;
-            if (!stopPointsForVehicle.isEmpty()) {
-                System.out.print("Vehicle " + (vehicleIndex + 1) + " Load for vehicle " + vehicles.get(vehicleIndex).load + ":");
-                int routSize = stopPointsForVehicle.size();
+    public void printResult() {
+        SolutionPrinter solutionPrinter = new SolutionPrinter(numberOfVehicles, vehicles, cost);
+        solutionPrinter.print();
 
-                for (int k = 0; k < routSize; k++) {
-                    if (k == routSize - 1) {
-                        System.out.print(stopPointsForVehicle.get(k).getName());
-                    } else {
-                        City city = stopPointsForVehicle.get(k);
-                        System.out.print(city.getName() + "->");
-                    }
-                }
-                System.out.println();
-            }
-        }
-        System.out.println("\nBest Value: " + cost + "\n");
+        displayGraphWithResult();
+    }
+
+    private void displayGraphWithResult() {
+        GraphBuilder graphBuilder = new GraphBuilder(numberOfVehicles, vehicles, cities);
+        Graph graph = graphBuilder.buildGraph();
+        graph.display().disableAutoLayout();
     }
 
     public int getNumberOfVehicles() {
