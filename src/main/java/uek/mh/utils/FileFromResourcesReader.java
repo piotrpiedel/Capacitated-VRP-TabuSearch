@@ -1,15 +1,27 @@
 package uek.mh.utils;
 
-import java.io.File;
+import java.io.*;
 
 public class FileFromResourcesReader {
 
     /**
      * @param pathToFileFromResources the location of the file, relative resource folder
-     *                                eg. datasets/big/Golden_20.vrp
+     *                                eg. Mhprojekt.vrp
+     * @return
      */
-    public File loadFile(String pathToFileFromResources) {
+    public BufferedReader loadFile(String pathToFileFromResources) throws FileNotFoundException {
         ClassLoader classLoader = getClass().getClassLoader();
-        return new File(classLoader.getResource(pathToFileFromResources).getFile());
+        File file = new File(classLoader.getResource(pathToFileFromResources).getFile());
+        if (file.exists()) {
+            return new BufferedReader(new FileReader(file));
+        }
+        if (!file.exists()) {
+            InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(pathToFileFromResources);
+            assert resourceAsStream != null;
+            Reader reader = new InputStreamReader(resourceAsStream);
+            return new BufferedReader(reader);
+
+        }
+        throw new FileNotFoundException();
     }
 }

@@ -5,7 +5,9 @@ import uek.mh.models.Coordinates;
 import uek.mh.models.VrpDataConfig;
 import uek.mh.utils.FileFromResourcesReader;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class DataFromFileConverterToInitialVrpData {
@@ -25,8 +27,7 @@ public class DataFromFileConverterToInitialVrpData {
 
     private DataFromFileConverterToInitialVrpData(String pathToFileFromResources) throws FileNotFoundException {
         FileFromResourcesReader fileFromResourcesReader = new FileFromResourcesReader();
-        File file = fileFromResourcesReader.loadFile(pathToFileFromResources);
-        reader = new BufferedReader(new FileReader(file));
+        reader = fileFromResourcesReader.loadFile(pathToFileFromResources);
         vrpDataConfig = new VrpDataConfig();
         haversineDistanceCalculator = new HaversineDistanceCalculator();
     }
