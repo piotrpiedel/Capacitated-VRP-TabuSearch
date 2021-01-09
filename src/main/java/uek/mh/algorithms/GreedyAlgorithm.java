@@ -19,11 +19,7 @@ public class GreedyAlgorithm {
     private int finalNumberOfUsedVehicles;
 
     private double totalRouteCost;
-
-    private final HaversineDistanceCalculator haversineDistanceCalculator;
-
     public GreedyAlgorithm(VrpDataConfig vrpDataConfig) {
-        haversineDistanceCalculator = new HaversineDistanceCalculator();
 
 
         this.numberOfCities = vrpDataConfig.getNumberOfCities();
@@ -104,11 +100,6 @@ public class GreedyAlgorithm {
     private void addCityToVehicleRouteForbidFromRoutingAgain(int vehicleIndex, Integer currentBestCityCandidateIndex, double currentBestCost) {
         City bestCandidateCity = cities.get(currentBestCityCandidateIndex);
         Vehicle vehicle = vehicles.get(vehicleIndex);
-        City previousCity = cities.get(vehicle.currentLocation);
-
-        //for debugging purpose
-        double distanceBetweenPreviousCityAndBestCandidate = haversineDistanceCalculator.calculateDistance(previousCity.getCoordinates(), bestCandidateCity.getCoordinates());
-
         vehicle.addStopPointToVehicle(bestCandidateCity);
         bestCandidateCity.isRouted = true;
         this.totalRouteCost += currentBestCost;
@@ -144,30 +135,22 @@ public class GreedyAlgorithm {
 
     public void print() {
         System.out.println("===============GREEDY ALGORITHM==============================");
-        double totalDistanceToAllVehicles = 0;
-
         for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {
             if (!vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
                 System.out.print("Vehicle " + (vehicleIndex + 1)  + " Load for vehicle " + vehicles.get(vehicleIndex).load + ":");
                 int routSize = vehicles.get(vehicleIndex).stopPoints.size();
-                double distanceSizeForVehicle = 0;
 
                 for (int k = 0; k < routSize; k++) {
                     City city = vehicles.get(vehicleIndex).stopPoints.get(k);
                     if (k == routSize - 1) {
                         System.out.print(city.cityId);
                     } else {
-                        distanceSizeForVehicle += haversineDistanceCalculator.calculateDistance(city.getCoordinates(), vehicles.get(vehicleIndex).stopPoints.get(k + 1).getCoordinates());
                         System.out.print(city.cityId + "->");
                     }
                 }
-                totalDistanceToAllVehicles += distanceSizeForVehicle;
-
                 System.out.println();
             }
         }
-        System.out.println("\nDistance from all vehicles: " + totalDistanceToAllVehicles + "\n");
-
         System.out.println("\nBest Value: " + this.totalRouteCost + "\n");
     }
 }
