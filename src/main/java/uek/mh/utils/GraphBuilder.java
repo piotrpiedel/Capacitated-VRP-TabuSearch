@@ -9,9 +9,9 @@ import uek.mh.models.Vehicle;
 import java.util.List;
 
 public class GraphBuilder {
-    private int numberOfVehicles;
-    private List<Vehicle> vehicles;
-    private List<City> cities;
+    private final int numberOfVehicles;
+    private final List<Vehicle> vehicles;
+    private final List<City> cities;
 
     public GraphBuilder(int numberOfVehicles, List<Vehicle> vehicles, List<City> cities) {
         this.numberOfVehicles = numberOfVehicles;
