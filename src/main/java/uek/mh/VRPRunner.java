@@ -16,7 +16,7 @@ public class VRPRunner {
             System.setProperty("org.graphstream.ui", "swing");
 
             VrpDataConfig vrpDataConfigPolandCitiesFromMhProject = DataFromFileConverterToInitialVrpData
-                    .convert("datasets/supported_datasets/Mhprojekt.vrp");
+                    .convert("Mhprojekt.vrp");
             TabuSearchAlgorithm tabuSearchAlgorithm = new TabuSearchAlgorithm(vrpDataConfigPolandCitiesFromMhProject);
             tabuSearchAlgorithm.run();
             tabuSearchAlgorithm.printAll();
