@@ -182,8 +182,6 @@ public class TabuSearchAlgorithm {
     }
 
     public void printAll() {
-//        System.out.println("================TABU SEARCH=============================");
-//
         double totalDistanceToAllVehicles = 0;
         for (int vehicleIndex = 0; vehicleIndex < this.numberOfVehicles; vehicleIndex++) {
             if (!this.vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
