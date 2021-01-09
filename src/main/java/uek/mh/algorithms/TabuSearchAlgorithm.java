@@ -207,11 +207,6 @@ public class TabuSearchAlgorithm {
         System.out.println("\nBest Value: " + cost + "\n");
     }
 
-    public void printOnlyCalculatedCost() {
-        System.out.println("=========================================================");
-        System.out.println("\nBest Value: " + cost + "\n");
-    }
-
     public int getNumberOfVehicles() {
         return numberOfVehicles;
     }
