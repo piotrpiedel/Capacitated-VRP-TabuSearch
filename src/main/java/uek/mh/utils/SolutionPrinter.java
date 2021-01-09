@@ -1,4 +1,4 @@
-package uek.mh.algorithms;
+package uek.mh.utils;
 
 import uek.mh.models.City;
 import uek.mh.models.Vehicle;

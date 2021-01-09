@@ -4,6 +4,7 @@ import lombok.Getter;
 import uek.mh.models.City;
 import uek.mh.models.Vehicle;
 import uek.mh.models.VrpDataConfig;
+import uek.mh.utils.SolutionPrinter;
 
 import java.util.ArrayList;
 import java.util.List;
