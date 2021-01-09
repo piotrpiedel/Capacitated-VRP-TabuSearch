@@ -30,3 +30,4 @@ build/classes/java/main/uek/mh/algorithms/HaversineDistanceCalculator.class
 build/
 .gradle/checksums/md5-checksums.bin
 .idea/
+.gradle/
