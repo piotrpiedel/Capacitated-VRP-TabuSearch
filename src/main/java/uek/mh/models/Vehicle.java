@@ -1,7 +1,10 @@
 package uek.mh.models;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 
+@Getter
 public class Vehicle {
     public ArrayList<City> stopPoints;
     private final int capacity;

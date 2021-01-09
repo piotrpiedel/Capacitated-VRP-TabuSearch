@@ -9,24 +9,19 @@ import java.util.List;
 
 public class TabuSearchAlgorithm {
     private final double[][] distances;
+    private final List<City> cities;
+    private final List<Vehicle> vehicles;
+    private final List<Vehicle> bestSolution;
+    private double cost;
+
     private final int numberOfVehicles;
     private final int tabuMemoryTime;
-    private final Vehicle[] bestSolution;
     private final int totalIterations;
-    private List<Vehicle> vehicles;
-    private double cost;
-    private List<City> cities;
 
     private double bestSolutionCost;
 
-    private HaversineDistanceCalculator haversineDistanceCalculator;
-
     public TabuSearchAlgorithm(VrpDataConfig vrpDataConfig) throws Exception {
-        haversineDistanceCalculator = new HaversineDistanceCalculator();
-
-        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpDataConfig);
-        greedyAlgorithm.runAlgorithm();
-        greedyAlgorithm.print();
+        GreedyAlgorithm greedyAlgorithm = getBestSolutionFromGreedyAlgorithm(vrpDataConfig);
         cities = greedyAlgorithm.getCities();
 
         distances = vrpDataConfig.getDistance();
@@ -35,11 +30,18 @@ public class TabuSearchAlgorithm {
         vehicles = greedyAlgorithm.getVehicles();
         cost = greedyAlgorithm.getTotalRouteCost();
         numberOfVehicles = greedyAlgorithm.getFinalNumberOfUsedVehicles();
-        bestSolution = new Vehicle[numberOfVehicles];
+        bestSolution = new ArrayList<>();
 
         for (int i = 0; i < numberOfVehicles; i++) {
-            bestSolution[i] = new Vehicle(vrpDataConfig.getVehicleCapacity());
+            bestSolution.add(new Vehicle(vrpDataConfig.getVehicleCapacity()));
         }
+    }
+
+    private GreedyAlgorithm getBestSolutionFromGreedyAlgorithm(VrpDataConfig vrpDataConfig) throws Exception {
+        GreedyAlgorithm greedyAlgorithm = new GreedyAlgorithm(vrpDataConfig);
+        greedyAlgorithm.runAlgorithm();
+        greedyAlgorithm.print();
+        return greedyAlgorithm;
     }
 
     public void run() {
@@ -170,39 +172,34 @@ public class TabuSearchAlgorithm {
     private void saveBestSolution() {
         bestSolutionCost = cost;
         for (int j = 0; j < numberOfVehicles; j++) {
-            bestSolution[j].stopPoints.clear();
-            if (!vehicles.get(j).stopPoints.isEmpty()) {
-                int routSize = vehicles.get(j).stopPoints.size();
-                for (int k = 0; k < routSize; k++) {
-                    City n = vehicles.get(j).stopPoints.get(k);
-                    bestSolution[j].stopPoints.add(n);
+            bestSolution.get(j).getStopPoints().clear();
+            Vehicle vehicle = vehicles.get(j);
+            ArrayList<City> stopPoints = vehicle.getStopPoints();
+            if (!stopPoints.isEmpty()) {
+                for (City n : stopPoints) {
+                    bestSolution.get(j).getStopPoints().add(n);
                 }
             }
         }
     }
 
     public void printAll() {
-        double totalDistanceToAllVehicles = 0;
         for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {
             if (!vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
                 System.out.print("Vehicle " + (vehicleIndex + 1) + " Load for vehicle " + vehicles.get(vehicleIndex).load + ":");
                 int routSize = vehicles.get(vehicleIndex).stopPoints.size();
-                double distanceSizeForVehicle = 0;
 
                 for (int k = 0; k < routSize; k++) {
                     if (k == routSize - 1) {
                         System.out.print(vehicles.get(vehicleIndex).stopPoints.get(k).getName());
                     } else {
                         City city = vehicles.get(vehicleIndex).stopPoints.get(k);
-                        distanceSizeForVehicle += haversineDistanceCalculator.calculateDistance(city.getCoordinates(), vehicles.get(vehicleIndex).stopPoints.get(k + 1).getCoordinates());
                         System.out.print(city.getName() + "->");
                     }
                 }
-                totalDistanceToAllVehicles += distanceSizeForVehicle;
                 System.out.println();
             }
         }
-        System.out.println("\nDistance from all vehicles: " + totalDistanceToAllVehicles + "\n");
         System.out.println("\nBest Value: " + cost + "\n");
     }
 
