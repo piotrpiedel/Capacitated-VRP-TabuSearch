@@ -91,7 +91,7 @@ public class TabuSearchAlgorithm {
                                     || (tabuMatrix[routeTo.get(j).cityId][routeFrom.get(i).cityId] != 0)
                                     || (tabuMatrix[routeFrom.get(i).cityId][routeTo.get(j + 1).cityId] != 0)) {
                                 // checking if that move isn't in tabu
-                                break;
+                                continue;
                             }
 
                             double subtractedCosts = this.distances[routeFrom.get(i - 1).cityId][routeFrom.get(i).cityId]
