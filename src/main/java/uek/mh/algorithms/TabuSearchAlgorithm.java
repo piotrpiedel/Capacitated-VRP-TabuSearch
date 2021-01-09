@@ -32,6 +32,10 @@ public class TabuSearchAlgorithm {
         numberOfVehicles = greedyAlgorithm.getFinalNumberOfUsedVehicles();
         bestSolution = new ArrayList<>();
 
+        createStartupVehicles(vrpDataConfig);
+    }
+
+    private void createStartupVehicles(VrpDataConfig vrpDataConfig) {
         for (int i = 0; i < numberOfVehicles; i++) {
             bestSolution.add(new Vehicle(vrpDataConfig.getVehicleCapacity()));
         }
