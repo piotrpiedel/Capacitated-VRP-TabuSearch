@@ -33,7 +33,7 @@ public class TabuSearchAlgorithm {
         this.tabuMemoryTime = vrpDataConfig.getTabuHorizonSize();
         this.totalIterations = vrpDataConfig.getIterations();
         this.vehicles = greedyAlgorithm.getVehicles();
-        this.cost = greedyAlgorithm.getCost();
+        this.cost = greedyAlgorithm.getTotalRouteCost();
         this.numberOfVehicles = greedyAlgorithm.getFinalNumberOfUsedVehicles();
         this.bestSolution = new Vehicle[this.numberOfVehicles];
 

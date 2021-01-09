@@ -18,9 +18,9 @@ public class GreedyAlgorithm {
     private final List<Vehicle> vehicles;
     private int finalNumberOfUsedVehicles;
 
-    private double cost;
+    private double totalRouteCost;
 
-    private HaversineDistanceCalculator haversineDistanceCalculator;
+    private final HaversineDistanceCalculator haversineDistanceCalculator;
 
     public GreedyAlgorithm(VrpDataConfig vrpDataConfig) {
         haversineDistanceCalculator = new HaversineDistanceCalculator();
@@ -29,7 +29,7 @@ public class GreedyAlgorithm {
         this.numberOfCities = vrpDataConfig.getNumberOfCities();
         this.numberOfVehicles = vrpDataConfig.getVehicles();
         this.distances = vrpDataConfig.getDistance();
-        this.cost = 0;
+        this.totalRouteCost = 0;
 
         cities = createCitiesWithDemandsFromFile(vrpDataConfig);
         vehicles = createVehiclesWithCapacitiesFromFile(vrpDataConfig);
@@ -102,9 +102,16 @@ public class GreedyAlgorithm {
     }
 
     private void addCityToVehicleRouteForbidFromRoutingAgain(int vehicleIndex, Integer currentBestCityCandidateIndex, double currentBestCost) {
-        vehicles.get(vehicleIndex).addStopPointToVehicle(cities.get(currentBestCityCandidateIndex));
-        cities.get(currentBestCityCandidateIndex).isRouted = true;
-        this.cost += currentBestCost;
+        City bestCandidateCity = cities.get(currentBestCityCandidateIndex);
+        Vehicle vehicle = vehicles.get(vehicleIndex);
+        City previousCity = cities.get(vehicle.currentLocation);
+
+        //for debugging purpose
+        double distanceBetweenPreviousCityAndBestCandidate = haversineDistanceCalculator.calculateDistance(previousCity.getCoordinates(), bestCandidateCity.getCoordinates());
+
+        vehicle.addStopPointToVehicle(bestCandidateCity);
+        bestCandidateCity.isRouted = true;
+        this.totalRouteCost += currentBestCost;
     }
 
     private boolean isVehicleInDepot(int currentVehicle) {
@@ -122,9 +129,9 @@ public class GreedyAlgorithm {
     }
 
     private void addToCostsDistanceBetweenLastCityAndDepot(int currentVehicle) {
-        vehicles.get(currentVehicle).addStopPointToVehicle(getDepot());
         double costBetweenLastCityAndDepot = distances[vehicles.get(currentVehicle).currentLocation][0];
-        this.cost += costBetweenLastCityAndDepot;
+        vehicles.get(currentVehicle).addStopPointToVehicle(getDepot());
+        this.totalRouteCost += costBetweenLastCityAndDepot;
     }
 
     private City getDepot() {
@@ -161,7 +168,7 @@ public class GreedyAlgorithm {
         }
         System.out.println("\nDistance from all vehicles: " + totalDistanceToAllVehicles + "\n");
 
-        System.out.println("\nBest Value: " + this.cost + "\n");
+        System.out.println("\nBest Value: " + this.totalRouteCost + "\n");
     }
 }
 
