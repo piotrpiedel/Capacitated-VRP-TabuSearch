@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class VrpDataConfig {
-    public int vehicles;
+    public int numberOfVehicles;
     public int iterations = 100000;
     public int tabuHorizonSize = 10;
 

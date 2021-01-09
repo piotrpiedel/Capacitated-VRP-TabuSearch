@@ -11,37 +11,38 @@ import java.util.stream.IntStream;
 
 @Getter
 public class GreedyAlgorithm {
-    private final int numberOfVehicles;
     private final List<City> cities;
-    private final double[][] distances;
-    private final int numberOfCities;
     private final List<Vehicle> vehicles;
+
+    private final int numberOfCities;
+    private final int numberOfVehicles;
+
+    private final double[][] distances;
     private int finalNumberOfUsedVehicles;
 
     private double totalRouteCost;
+
     public GreedyAlgorithm(VrpDataConfig vrpDataConfig) {
-
-
-        this.numberOfCities = vrpDataConfig.getNumberOfCities();
-        this.numberOfVehicles = vrpDataConfig.getVehicles();
-        this.distances = vrpDataConfig.getDistance();
-        this.totalRouteCost = 0;
-
         cities = createCitiesWithDemandsFromFile(vrpDataConfig);
         vehicles = createVehiclesWithCapacitiesFromFile(vrpDataConfig);
+
+        this.numberOfCities = vrpDataConfig.getNumberOfCities();
+        this.numberOfVehicles = vrpDataConfig.getNumberOfVehicles();
+        this.distances = vrpDataConfig.getDistance();
+        this.totalRouteCost = 0;
     }
 
     private List<City> createCitiesWithDemandsFromFile(VrpDataConfig vrpDataConfig) {
         List<City> cities = new ArrayList<>();
-        for (int i = 0; i < numberOfCities; i++) {
-            cities.add(new City(i, vrpDataConfig.getDemandForCity(i),vrpDataConfig.getCoordinates().get(i)));
+        for (int i = 0; i < vrpDataConfig.getNumberOfCities(); i++) {
+            cities.add(new City(i, vrpDataConfig.getDemandForCity(i), vrpDataConfig.getCoordinates().get(i)));
         }
         return cities;
     }
 
     private List<Vehicle> createVehiclesWithCapacitiesFromFile(VrpDataConfig vrpDataConfig) {
         List<Vehicle> vehicles = new ArrayList<>();
-        for (int i = 0; i < this.numberOfVehicles; i++) {
+        for (int i = 0; i < vrpDataConfig.getNumberOfVehicles(); i++) {
             vehicles.add(new Vehicle(vrpDataConfig.getVehicleCapacity()));
         }
         return vehicles;
