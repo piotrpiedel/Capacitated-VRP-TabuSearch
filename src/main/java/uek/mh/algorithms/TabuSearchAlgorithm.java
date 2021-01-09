@@ -176,28 +176,28 @@ public class TabuSearchAlgorithm {
     private void saveBestSolution() {
         bestSolutionCost = cost;
         for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {
-            bestSolution.get(vehicleIndex).getStopPoints().clear();
+            ArrayList<City> stopPoints = bestSolution.get(vehicleIndex).getStopPoints();
+            stopPoints.clear();
             Vehicle vehicle = vehicles.get(vehicleIndex);
-            ArrayList<City> stopPoints = vehicle.getStopPoints();
-            if (!stopPoints.isEmpty()) {
-                for (City n : stopPoints) {
-                    bestSolution.get(vehicleIndex).getStopPoints().add(n);
-                }
+            ArrayList<City> vehicleStopPoints = vehicle.getStopPoints();
+            if (!vehicleStopPoints.isEmpty()) {
+                stopPoints.addAll(vehicleStopPoints);
             }
         }
     }
 
     public void printAll() {
         for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {
-            if (!vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
+            ArrayList<City> stopPointsForVehicle = vehicles.get(vehicleIndex).stopPoints;
+            if (!stopPointsForVehicle.isEmpty()) {
                 System.out.print("Vehicle " + (vehicleIndex + 1) + " Load for vehicle " + vehicles.get(vehicleIndex).load + ":");
-                int routSize = vehicles.get(vehicleIndex).stopPoints.size();
+                int routSize = stopPointsForVehicle.size();
 
                 for (int k = 0; k < routSize; k++) {
                     if (k == routSize - 1) {
-                        System.out.print(vehicles.get(vehicleIndex).stopPoints.get(k).getName());
+                        System.out.print(stopPointsForVehicle.get(k).getName());
                     } else {
-                        City city = vehicles.get(vehicleIndex).stopPoints.get(k);
+                        City city = stopPointsForVehicle.get(k);
                         System.out.print(city.getName() + "->");
                     }
                 }

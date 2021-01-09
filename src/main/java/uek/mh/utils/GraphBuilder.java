@@ -6,6 +6,7 @@ import org.graphstream.graph.implementations.SingleGraph;
 import uek.mh.models.City;
 import uek.mh.models.Vehicle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GraphBuilder {
@@ -29,11 +30,12 @@ public class GraphBuilder {
 
         }
         for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {
-            if (!vehicles.get(vehicleIndex).stopPoints.isEmpty()) {
-                int routSize = vehicles.get(vehicleIndex).stopPoints.size();
+            ArrayList<City> stopPoints = vehicles.get(vehicleIndex).stopPoints;
+            if (!stopPoints.isEmpty()) {
+                int routSize = stopPoints.size();
                 for (int k = 0; k < routSize - 1; k++) {
-                    graph.addEdge(vehicles.get(vehicleIndex).stopPoints.get(k).getName() + vehicles.get(vehicleIndex).stopPoints.get(k + 1).getName(),
-                            String.valueOf(vehicles.get(vehicleIndex).stopPoints.get(k).getName()), String.valueOf(vehicles.get(vehicleIndex).stopPoints.get(k + 1).getName()));
+                    graph.addEdge(stopPoints.get(k).getName() + stopPoints.get(k + 1).getName(),
+                            String.valueOf(stopPoints.get(k).getName()), String.valueOf(stopPoints.get(k + 1).getName()));
 
                 }
             }
