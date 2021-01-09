@@ -21,7 +21,7 @@ public class SolutionPrinter {
         for (int vehicleIndex = 0; vehicleIndex < numberOfVehicles; vehicleIndex++) {
             ArrayList<City> stopPointsForVehicle = vehicles.get(vehicleIndex).stopPoints;
             if (!stopPointsForVehicle.isEmpty()) {
-                System.out.print("Vehicle " + (vehicleIndex + 1) + " Load for vehicle " + vehicles.get(vehicleIndex).load + ":");
+                System.out.print("Vehicle " + (vehicleIndex + 1) + " Load for vehicle " + vehicles.get(vehicleIndex).load + ": ");
                 int routSize = stopPointsForVehicle.size();
 
                 for (int k = 0; k < routSize; k++) {
