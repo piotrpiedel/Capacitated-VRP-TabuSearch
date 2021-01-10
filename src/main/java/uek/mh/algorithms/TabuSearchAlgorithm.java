@@ -52,17 +52,15 @@ public class TabuSearchAlgorithm {
     }
 
     public void run() {
-        //We use 1-0 exchange move
         ArrayList<City> routeFrom;
         ArrayList<City> routeTo;
 
+        double bestIterationCost;
+        double currentCost;
         int currentNodeDemand = 0;
 
         int vehicleIndexFrom;
         int vehicleIndexTo;
-        double bestIterationCost;
-        double currentCost;
-
         int swapIndexA = -1;
         int swapIndexB = -1;
         int swapRouteFrom = -1;
@@ -98,10 +96,20 @@ public class TabuSearchAlgorithm {
 
                             if ((tabuMatrix[routeFrom.get(i - 1).cityId][routeFrom.get(i + 1).cityId] != 0)
                                     || (tabuMatrix[routeTo.get(j).cityId][routeFrom.get(i).cityId] != 0)
-                                    || (tabuMatrix[routeFrom.get(i).cityId][routeTo.get(j + 1).cityId] != 0)) {
+                                    || (tabuMatrix[routeFrom.get(i).cityId][routeTo.get(j).cityId] != 0)) {
                                 // checking if that move isn't in tabu
                                 continue;
                             }
+//                            if(tabuMatrix[routeFrom.get(i - 1).cityId][routeFrom.get(i + 1).cityId] != 0)
+//                                continue;
+//                            if(tabuMatrix[routeTo.get(j).cityId][routeFrom.get(i).cityId] != 0)
+//                                continue;
+//                            if(tabuMatrix[routeFrom.get(i).cityId][routeTo.get(j).cityId] != 0)
+//                                continue;
+
+//                            if(tabuMatrix[routeFrom.get(i).cityId][routeTo.get(j).cityId] != 0) {
+//                                continue;
+//                            }
 
                             double subtractedCosts = distances[routeFrom.get(i - 1).cityId][routeFrom.get(i).cityId]
                                     + distances[routeFrom.get(i).cityId][routeFrom.get(i + 1).cityId]
@@ -115,10 +123,10 @@ public class TabuSearchAlgorithm {
 
                             if (currentCost < bestIterationCost) {
                                 bestIterationCost = currentCost;
-                                swapIndexA = i;
-                                swapIndexB = j;
                                 swapRouteFrom = vehicleIndexFrom;
                                 swapRouteTo = vehicleIndexTo;
+                                swapIndexA = i;
+                                swapIndexB = j;
                             }
                         }
                     }
@@ -138,15 +146,16 @@ public class TabuSearchAlgorithm {
 
             City swapCity = routeFrom.get(swapIndexA);
 
-            int nodeIdBefore = routeFrom.get(swapIndexA - 1).cityId;
-            int nodeIdAfter = routeFrom.get(swapIndexA + 1).cityId;
-            int nodeId_F = routeTo.get(swapIndexB).cityId;
-            int nodeId_G = routeTo.get(swapIndexB + 1).cityId;
+            int cityIdBeforeSwapCity = routeFrom.get(swapIndexA - 1).cityId;
+            int cityIdAfterSwapCity = routeFrom.get(swapIndexA + 1).cityId;
+            int cityIdBeforeInsertPosition = routeTo.get(swapIndexB).cityId;
+            int cityIdAfterInsertPosition = routeTo.get(swapIndexB + 1).cityId;
 
 
-            tabuMatrix[nodeIdBefore][swapCity.cityId] = tabuMemoryTime;
-            tabuMatrix[swapCity.cityId][nodeIdAfter] = tabuMemoryTime;
-            tabuMatrix[nodeId_F][nodeId_G] = tabuMemoryTime;
+//            tabuMatrix[swapCity.cityId][nodeIdBefore] = tabuMemoryTime;
+            tabuMatrix[cityIdBeforeSwapCity][swapCity.cityId] = tabuMemoryTime;
+            tabuMatrix[swapCity.cityId][cityIdAfterSwapCity] = tabuMemoryTime;
+            tabuMatrix[cityIdBeforeInsertPosition][cityIdAfterInsertPosition] = tabuMemoryTime;
 
             routeFrom.remove(swapIndexA);
 
