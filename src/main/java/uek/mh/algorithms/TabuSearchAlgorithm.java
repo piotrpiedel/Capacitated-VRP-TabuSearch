@@ -61,8 +61,8 @@ public class TabuSearchAlgorithm {
 
         int vehicleIndexFrom;
         int vehicleIndexTo;
-        int swapIndexA = -1;
-        int swapIndexB = -1;
+        int swapCityIndex = -1;
+        int insertPositionIndex = -1;
         int swapRouteFrom = -1;
         int swapRouteTo = -1;
 
@@ -125,8 +125,8 @@ public class TabuSearchAlgorithm {
                                 bestIterationCost = currentCost;
                                 swapRouteFrom = vehicleIndexFrom;
                                 swapRouteTo = vehicleIndexTo;
-                                swapIndexA = i;
-                                swapIndexB = j;
+                                swapCityIndex = i;
+                                insertPositionIndex = j;
                             }
                         }
                     }
@@ -144,12 +144,12 @@ public class TabuSearchAlgorithm {
             routeFrom = vehicles.get(swapRouteFrom).stopPoints;
             routeTo = vehicles.get(swapRouteTo).stopPoints;
 
-            City swapCity = routeFrom.get(swapIndexA);
+            City swapCity = routeFrom.get(swapCityIndex);
 
-            int cityIdBeforeSwapCity = routeFrom.get(swapIndexA - 1).cityId;
-            int cityIdAfterSwapCity = routeFrom.get(swapIndexA + 1).cityId;
-            int cityIdBeforeInsertPosition = routeTo.get(swapIndexB).cityId;
-            int cityIdAfterInsertPosition = routeTo.get(swapIndexB + 1).cityId;
+            int cityIdBeforeSwapCity = routeFrom.get(swapCityIndex - 1).cityId;
+            int cityIdAfterSwapCity = routeFrom.get(swapCityIndex + 1).cityId;
+            int cityIdBeforeInsertPosition = routeTo.get(insertPositionIndex).cityId;
+            int cityIdAfterInsertPosition = routeTo.get(insertPositionIndex + 1).cityId;
 
 
 //            tabuMatrix[swapCity.cityId][nodeIdBefore] = tabuMemoryTime;
@@ -157,16 +157,16 @@ public class TabuSearchAlgorithm {
             tabuMatrix[swapCity.cityId][cityIdAfterSwapCity] = tabuMemoryTime;
             tabuMatrix[cityIdBeforeInsertPosition][cityIdAfterInsertPosition] = tabuMemoryTime;
 
-            routeFrom.remove(swapIndexA);
+            routeFrom.remove(swapCityIndex);
 
             if (swapRouteFrom == swapRouteTo) {
-                if (swapIndexA < swapIndexB) {
-                    routeTo.add(swapIndexB, swapCity);
+                if (swapCityIndex < insertPositionIndex) {
+                    routeTo.add(insertPositionIndex, swapCity);
                 } else {
-                    routeTo.add(swapIndexB + 1, swapCity);
+                    routeTo.add(insertPositionIndex + 1, swapCity);
                 }
             } else {
-                routeTo.add(swapIndexB + 1, swapCity);
+                routeTo.add(insertPositionIndex + 1, swapCity);
             }
 
             vehicles.get(swapRouteFrom).stopPoints = routeFrom;
