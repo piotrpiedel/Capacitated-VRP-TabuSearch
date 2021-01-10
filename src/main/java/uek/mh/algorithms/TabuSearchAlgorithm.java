@@ -57,6 +57,7 @@ public class TabuSearchAlgorithm {
 
         double bestIterationCost;
         double currentCost;
+
         int currentNodeDemand = 0;
 
         int vehicleIndexFrom;

@@ -44,7 +44,7 @@ public class SolutionPrinter {
                 System.out.println();
             }
         }
-        System.out.println("\nDistance from all vehicles: " + totalDistanceToAllVehicles + "\n");
+//        System.out.println("\nDistance from all vehicles: " + totalDistanceToAllVehicles + "\n");
 
         System.out.println("\nBest Value: " + totalRouteCost + "\n");
     }
