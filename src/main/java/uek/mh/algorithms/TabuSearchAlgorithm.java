@@ -102,18 +102,19 @@ public class TabuSearchAlgorithm {
                             }
 
                             City cityTo = routeTo.get(j);
-                            if ((tabuMatrix[routeFrom.get(i - 1).cityId][routeFrom.get(i + 1).cityId] != 0)
+                            City previousToCityFrom = routeFrom.get(i - 1);
+                            if ((tabuMatrix[previousToCityFrom.cityId][routeFrom.get(i + 1).cityId] != 0)
                                     || (tabuMatrix[cityTo.cityId][cityFrom.cityId] != 0)
                                     || (tabuMatrix[cityFrom.cityId][routeTo.get(j + 1).cityId] != 0)) {
                                 // checking if that move isn't in tabu
                                 continue;
                             }
 
-                            double subtractedCosts = distances[routeFrom.get(i - 1).cityId][cityFrom.cityId]
+                            double subtractedCosts = distances[previousToCityFrom.cityId][cityFrom.cityId]
                                     + distances[cityFrom.cityId][routeFrom.get(i + 1).cityId]
                                     + distances[cityTo.cityId][routeTo.get(j + 1).cityId];
 
-                            double addedCosts = distances[routeFrom.get(i - 1).cityId][routeFrom.get(i + 1).cityId]
+                            double addedCosts = distances[previousToCityFrom.cityId][routeFrom.get(i + 1).cityId]
                                     + distances[cityTo.cityId][cityFrom.cityId]
                                     + distances[cityFrom.cityId][routeTo.get(j + 1).cityId];
 
@@ -124,7 +125,10 @@ public class TabuSearchAlgorithm {
                                 swapIndexA = i;
                                 swapIndexB = j;
                                 swapRouteFrom = vehicleIndexFrom;
+                                City fromSwap = vehicles.get(swapRouteFrom).getStopPoints().get(i);
                                 swapRouteTo = vehicleIndexTo;
+                                City toSwap = vehicles.get(swapRouteTo).getStopPoints().get(j);
+
                             }
                         }
                     }
@@ -146,10 +150,16 @@ public class TabuSearchAlgorithm {
 
             City swapCity = routeFrom.get(swapIndexA);
 
-            int nodeIdBefore = routeFrom.get(swapIndexA - 1).cityId;
-            int nodeIdAfter = routeFrom.get(swapIndexA + 1).cityId;
-            int nodeId_F = routeTo.get(swapIndexB).cityId;
-            int nodeId_G = routeTo.get(swapIndexB + 1).cityId;
+
+            City city = routeFrom.get(swapIndexA - 1);
+            int nodeIdBefore = city.cityId;
+            City city1 = routeFrom.get(swapIndexA + 1);
+            int nodeIdAfter = city1.cityId;
+
+            City city2 = routeTo.get(swapIndexB);
+            int nodeId_F = city2.cityId;
+            City city3 = routeTo.get(swapIndexB + 1);
+            int nodeId_G = city3.cityId;
 
 
             tabuMatrix[nodeIdBefore][swapCity.cityId] = tabuMemoryTime;
