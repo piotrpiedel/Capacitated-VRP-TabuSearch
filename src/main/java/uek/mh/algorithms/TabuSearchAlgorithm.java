@@ -139,8 +139,10 @@ public class TabuSearchAlgorithm {
                 }
             }
 
-            routeFrom = vehicles.get(swapRouteFrom).stopPoints;
-            routeTo = vehicles.get(swapRouteTo).stopPoints;
+            Vehicle vehicleFrom = vehicles.get(swapRouteFrom);
+            routeFrom = vehicleFrom.stopPoints;
+            Vehicle vehicleTo = vehicles.get(swapRouteTo);
+            routeTo = vehicleTo.stopPoints;
 
             City swapCity = routeFrom.get(swapIndexA);
 
@@ -166,11 +168,11 @@ public class TabuSearchAlgorithm {
                 routeTo.add(swapIndexB + 1, swapCity);
             }
 
-            vehicles.get(swapRouteFrom).stopPoints = routeFrom;
-            vehicles.get(swapRouteFrom).load -= swapCity.demand;
+            vehicleFrom.stopPoints = routeFrom;
+            vehicleFrom.load -= swapCity.demand;
 
-            vehicles.get(swapRouteTo).stopPoints = routeTo;
-            vehicles.get(swapRouteTo).load += swapCity.demand;
+            vehicleTo.stopPoints = routeTo;
+            vehicleTo.load += swapCity.demand;
 
             cost += bestIterationCost;
 
