@@ -28,7 +28,7 @@ public class TabuSearchAlgorithm {
         cities = greedyAlgorithm.getCities();
 
         distances = vrpDataConfig.getDistance();
-        tabuMemoryTime = vrpDataConfig.getTabuHorizonSize();
+        tabuMemoryTime = vrpDataConfig.getTabuMemoryTime();
         totalIterations = vrpDataConfig.getIterations();
         vehicles = greedyAlgorithm.getVehicles();
         cost = greedyAlgorithm.getTotalRouteCost();
