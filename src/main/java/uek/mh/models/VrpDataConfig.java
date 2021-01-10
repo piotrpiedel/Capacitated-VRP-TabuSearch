@@ -8,7 +8,7 @@ import java.util.List;
 public class VrpDataConfig {
     public int numberOfVehicles;
     public int iterations = 100000;
-    public int tabuHorizonSize = 10;
+    public int tabuMemoryTime = 10;
 
     public int numberOfCities;
     public int vehicleCapacity;
