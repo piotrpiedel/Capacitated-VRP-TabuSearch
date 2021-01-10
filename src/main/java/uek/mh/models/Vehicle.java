@@ -10,8 +10,10 @@ public class Vehicle {
     private final int capacity;
     public int load;
     public int currentLocation;
+    public int vehicleId;
 
-    public Vehicle(int capacity) {
+    public Vehicle(int id, int capacity) {
+        this.vehicleId = id;
         this.capacity = capacity;
         this.load = 0;
         this.currentLocation = 0; // this is starting point
@@ -26,5 +28,13 @@ public class Vehicle {
 
     public boolean checkIfCapacityFits(int dem) {
         return (this.load + dem <= capacity);
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "currentLocation=" + currentLocation +
+                ", vehicleId=" + vehicleId +
+                '}';
     }
 }

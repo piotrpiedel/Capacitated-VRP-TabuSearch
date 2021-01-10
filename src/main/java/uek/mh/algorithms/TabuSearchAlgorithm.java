@@ -40,7 +40,7 @@ public class TabuSearchAlgorithm {
 
     private void createStartupVehicles(VrpDataConfig vrpDataConfig) {
         for (int i = 0; i < numberOfVehicles; i++) {
-            bestSolution.add(new Vehicle(vrpDataConfig.getVehicleCapacity()));
+            bestSolution.add(new Vehicle(i, vrpDataConfig.getVehicleCapacity()));
         }
     }
 

@@ -44,7 +44,7 @@ public class GreedyAlgorithm {
     private List<Vehicle> createVehiclesWithCapacitiesFromFile(VrpDataConfig vrpDataConfig) {
         List<Vehicle> vehicles = new ArrayList<>();
         for (int i = 0; i < vrpDataConfig.getNumberOfVehicles(); i++) {
-            vehicles.add(new Vehicle(vrpDataConfig.getVehicleCapacity()));
+            vehicles.add(new Vehicle(i, vrpDataConfig.getVehicleCapacity()));
         }
         return vehicles;
     }
